@@ -2,62 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 
-class ApiController extends Controller
+use App\Http\Response\ApiResponse;
+
+
+abstract class ApiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    final protected function createSuccessResponse(array $data = []): ApiResponse
     {
-        //
+        return ApiResponse::success($data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    final protected function createErrorResponse(string $message, string $code): ApiResponse
     {
-        //
+        return ApiResponse::error($code, $message);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    final protected function createDeletedResponse(): ApiResponse
     {
-        //
+        return ApiResponse::deleted();
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    final protected function createEmptyResponse(): ApiResponse
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return ApiResponse::empty();
     }
 }

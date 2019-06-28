@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Auth;
-use Validator;
-use App\Models\User;
+use App\Http\Controllers\ApiController;
 
-class AuthController extends Controller
+
+class AuthController extends ApiController
 {
     private $resetPasswordAction;
     private $sendResetPasswordAction;
