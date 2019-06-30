@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Prophecy\Exception\InvalidArgumentException;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -17,7 +18,11 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'first_name',
+        'last_name',
+        'nickname',
+        'email', 
+        'password',
     ];
 
     /**
@@ -26,7 +31,11 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 
+        'remember_token',
+        'email_verified_at',
+        'created_at',
+        'updated_at'
     ];
 
     /**
@@ -48,6 +57,67 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
+    public function setPasswordAttribute($password)
+    {
+        if (!empty($password)) {
+            $this->attributes['password'] = bcrypt($password);
+        }
+    }
 
+    public function changeFirstName(string $firstName): void
+    {
+        if (empty($firstName)) {
+            throw new InvalidArgumentException('User firs name cannot be empty.');
+        }
 
+        $this->attributes['first_name'] = $firstName;
+    }
+
+    public function changeLastName(string $lastName): void
+    {
+        if (empty($lastName)) {
+            throw new InvalidArgumentException('User last name cannot be empty.');
+        }
+
+        $this->attributes['last_name'] = $lastName;
+    }
+
+    public function changeNickName(string $nickname): void
+    {
+        if (empty($nickname)) {
+            throw new InvalidArgumentException('User nickname cannot be empty.');
+        }
+
+        $this->attributes['nick_name'] = $nickname;
+    }
+
+    public function getFirstName(): string
+    {
+        return $this->first_name;
+    }
+
+    public function getLastName(): string
+    {
+        return $this->last_name;
+    }
+
+    public function getNickName(): string
+    {
+        return $this->nickname;
+    }
+
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
 }
