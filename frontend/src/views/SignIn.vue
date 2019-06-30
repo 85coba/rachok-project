@@ -28,7 +28,8 @@
                 </v-form>
               </v-card-text>
               <v-card-actions>
-                <v-spacer></v-spacer>
+                <v-spacer><router-link :to="{ name: 'auth.signUp' }"> SignUp</router-link></v-spacer>
+                
                 <v-btn color="primary" @click="onLogin">Login</v-btn>
               </v-card-actions>
             </v-card>
