@@ -1,15 +1,17 @@
 <template>
-      <RequestForm/>
+  <v-app>
+    <v-content>
+      Here will be user cabinet.
+    </v-content>
+  </v-app>
 </template>
 
 <script>
-import RequestForm from '../components/home/RequestForm';
 import { mapGetters, mapMutations, mapActions } from 'vuex';
 
 export default {
-  name: 'Home',
+  name: 'Cabinet',
   components: {
-    RequestForm,
   },
 
   computed: {

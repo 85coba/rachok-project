@@ -1,5 +1,4 @@
 <template>
-  <v-app id="inspire">
     <v-layout align-center justify-center>
       <form class="registerForm" 
         @submit.prevent
@@ -40,7 +39,6 @@
         <v-btn @click="onSubmit">Зареєструватися</v-btn>
       </form>
     </v-layout>
-  </v-app>
 </template>
 
 <script>
