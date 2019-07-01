@@ -1,13 +1,13 @@
 <template>
   <v-container fluid>
-    <v-card-text display-2>
-      Рачок.ком - сервіс з пошуку спецтехніки.
-    </v-card-text >   
+    <p class="text-md-center headline font-weight-medium font-italic">
+      Ra4ok.com
+    </p>
     <v-layout row>
-      <v-flex xs8 >
+      <v-flex grow>
           <RequestForm/>
       </v-flex>
-      <v-flex shrink>
+      <v-flex xs3 hidden-xs-only>
         <v-card-text>
           Some help variant.
         </v-card-text>
