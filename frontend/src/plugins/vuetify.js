@@ -1,7 +1,8 @@
 import Vue from 'vue';
 import Vuetify, { VSnackbar, VBtn, VIcon } from 'vuetify/lib';
 import 'vuetify/src/stylus/app.styl';
-import VuetifyToast from 'vuetify-toast-snackbar'
+import VuetifyToast from 'vuetify-toast-snackbar';
+import '@mdi/font/css/materialdesignicons.css';
 
 Vue.use(Vuetify, {
   components: {
@@ -13,7 +14,7 @@ Vue.use(Vuetify, {
 
 
 Vue.use(Vuetify, {
-  iconfont: 'md',
+  iconfont: 'mdi',
 });
 
 Vue.use(VuetifyToast, {
