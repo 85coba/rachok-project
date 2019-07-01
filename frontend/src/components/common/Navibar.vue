@@ -1,7 +1,7 @@
 <template>
     <v-toolbar home>
       <v-toolbar-title class="headline text-uppercase">
-        <router-link :to="{name: 'home'}"><span>Рачок</span></router-link>
+        <router-link :to="{name: 'home'}" class="tool-bar-link"><span>Рачок</span></router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
 
@@ -46,8 +46,8 @@
 </script>
 
 <style scope>
-    a {
-        color:darkslategrey;    
+    .tool-bar-link {   
+        color:rgb(19, 2, 2);
         text-decoration: none;
     }
 </style>

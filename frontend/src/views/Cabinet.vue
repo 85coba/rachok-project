@@ -1,9 +1,7 @@
 <template>
-  <v-app>
     <v-content>
       Here will be user cabinet.
     </v-content>
-  </v-app>
 </template>
 
 <script>
