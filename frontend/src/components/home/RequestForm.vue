@@ -96,6 +96,7 @@ export default {
   },
 
   data: () => ({
+    address: "",
     descriptionLimit: 60,
     isLoading: false,
     model: null,
@@ -110,9 +111,9 @@ export default {
   }),
 
   computed: {
+
     fields() {
       if (!this.model) return [];
-    
       return Object.keys(this.model)
       .filter(key => key !== 'Name' && key !== 'Type')
       .map(key => {
@@ -122,14 +123,17 @@ export default {
         };
       });
     },
+
     items() {
       return this.entries.map(entry => {
         const Type = entry.Type;
         return Object.assign({}, entry, { Type });
       });
     }
+
   },
   methods: {
+
     onClear() {
       this.model = null;
       this.next = false;
@@ -137,7 +141,10 @@ export default {
 
     getAddressData: function (addressData, placeResultData, id) {
       this.address = addressData;
+      console.log(addressData.administrative_area_level_1);
+      console.log(id);
     }
+
   },
 
   watch: {
