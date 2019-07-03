@@ -1,5 +1,5 @@
 <template>
-    <v-toolbar home>
+    <v-toolbar home fixed>
       <v-toolbar-title class="headline text-uppercase">
         <router-link :to="{name: 'home'}" class="tool-bar-link"><span>Рачок</span></router-link>
       </v-toolbar-title>
