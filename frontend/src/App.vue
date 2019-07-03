@@ -2,11 +2,9 @@
   <v-app>
     
     <Navibar></Navibar>
-    
     <router-view />
 
     <Loading></Loading>
-      
   </v-app>
 </template>
 

@@ -13,7 +13,6 @@
     "pusher-js": "^4.4.0",
     "vue": "^2.6.10",
     "vue-router": "^3.0.6",
-    "vue-toast-notification": "0.0.2",
     "vuetify": "^1.5.5",
     "vuetify-toast-snackbar": "^0.3.0",
     "vuex": "^3.1.1"
