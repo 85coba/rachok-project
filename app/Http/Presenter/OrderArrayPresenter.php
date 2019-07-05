@@ -5,13 +5,13 @@ namespace App\Http\Presenter;
 use App\Models\Order;
 use Illuminate\Support\Collection;
 
-final class OrderArrayPresenter
+final class OrderArrayPresenter implements CollectionAsArrayPresenter
 {
     public function present(Order $order):array
     {
         return [
             'id' => $order->getId(),
-            'title' => $order->getTigle(),
+            'title' => $order->getTitle(),
             'info' => $order->getInfo(),
             'features' => $order->getFeatures(),
             'region' => $order->getRegion(),
@@ -21,5 +21,16 @@ final class OrderArrayPresenter
             'phoneNumber' => $order->getPhoneNumber(),
             'date' => $order->getCreatedAt()->toDateTimeString()
         ];
+    }
+
+    public function presentCollection(Collection $collection): array
+    {
+        return $collection
+            ->map(
+                function (Order $order) {
+                    return $this->present($order);
+                }
+            )
+            ->all();
     }
 }

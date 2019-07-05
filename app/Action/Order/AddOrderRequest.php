@@ -22,7 +22,7 @@ final class AddOrderRequest
         string $city,
         string $pib,
         string $email,
-        string $phoneNamber
+        string $phoneNumber
     ){
         $this->title = $title;
         $this->info = $info;
@@ -31,7 +31,7 @@ final class AddOrderRequest
         $this->city = $city;
         $this->pib = $pib;
         $this->email = $email;
-        $this->phoneNamber = $phoneNamber;        
+        $this->phoneNumber = $phoneNumber;        
     }
 
     public function getTitle():string
@@ -67,7 +67,7 @@ final class AddOrderRequest
 
     public function getPhoneNamber()
     {
-        return $this->phoneNamber;
+        return $this->phoneNumber;
     }
 
     public function getPib()

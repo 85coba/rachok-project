@@ -39,7 +39,7 @@ class OrderController extends ApiController
                 $request->get('city'),
                 $request->get('pib'),
                 $request->get('email'),
-                $request->get('phoneName')
+                $request->get('phoneNumber')
             )
         );
 
