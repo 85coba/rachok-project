@@ -1,14 +1,12 @@
 <template>
-    <v-toolbar home fixed>
+    <v-toolbar home dark color="blue darken-3">
       <v-toolbar-title class="headline text-uppercase">
         <router-link :to="{name: 'home'}" class="tool-bar-link"><span>Рачок</span></router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-
       <v-btn
         flat
         to ="/cabinet"
-        
       >
         <span class="mr-2">Мій кабінет</span>
       </v-btn>
@@ -47,7 +45,7 @@
 
 <style scope>
     .tool-bar-link {   
-        color:rgb(19, 2, 2);
+        color:rgb(247, 215, 73);
         text-decoration: none;
     }
 </style>

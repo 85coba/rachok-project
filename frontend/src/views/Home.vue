@@ -1,8 +1,5 @@
 <template>
   <v-container fluid>
-    <p class="text-md-center headline font-weight-medium font-italic">
-      Ra4ok.com
-    </p>
     <v-layout row>
       <v-flex grow>
           <RequestForm/>
