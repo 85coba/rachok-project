@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-layout row>
       <v-flex grow>
-        r567890
+        <OrdersTable></OrdersTable>
       </v-flex>
       <v-flex xs3 hidden-xs-only>
         <v-card-text>
@@ -15,10 +15,12 @@
 
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex';
+import OrdersTable from '../components/cabinet/OrdersTable';
 
 export default {
   name: 'Cabinet',
   components: {
+    OrdersTable
   },
 
   computed: {
