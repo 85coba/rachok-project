@@ -27,4 +27,9 @@ abstract class ApiController extends Controller
     {
         return ApiResponse::empty();
     }
+    
+    final protected function created(array $data): ApiResponse
+    {
+        return ApiResponse::created($data);
+    }
 }

@@ -28,6 +28,7 @@ import Navibar from './components/common/Navibar';
 
 export default {
   name: 'App',
+
   components: {
     Loading,
     Navibar
@@ -40,14 +41,12 @@ export default {
         });
   },
 
-
-  data: () => ({
-   //
-  }),
-
   computed: {
         ...mapGetters([
             'isLoading'
+        ]),
+        ...mapGetters('auth', [
+            'isLoggedIn',
         ]),
   },
 

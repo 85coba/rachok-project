@@ -44,7 +44,7 @@
               placeholder=" "
               outline
               ma-5
-              :rules="[rules.required, rules.counter]"
+              :rules="[rules.required]"
           ></v-text-field>
 
           <v-text-field
