@@ -8,9 +8,9 @@
               @click="toggle(index)"
             >
               <v-list-tile-content>
-                <v-list-tile-title>{{ item.name }}</v-list-tile-title>
-                <v-list-tile-sub-title class="text--primary"><v-icon>mdi-at</v-icon> {{ item.email }}</v-list-tile-sub-title>
-                <v-list-tile-sub-title><v-icon>mdi-map-marker</v-icon>{{ item.city }}</v-list-tile-sub-title>
+                <v-list-tile-title><v-icon>mdi-forklift</v-icon>{{ item.name }}</v-list-tile-title>
+                <v-list-tile-sub-title class="text--primary">{{ item.email }}</v-list-tile-sub-title>
+                <v-list-tile-sub-title>{{ item.city }}</v-list-tile-sub-title>
               </v-list-tile-content>
 
               <v-list-tile-action>
