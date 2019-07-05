@@ -5,19 +5,17 @@
       <span class="white--text">Заповніть форму для заявки</span>
     </v-card-title>
     <v-card-text>
-      <v-autocomplete
-        v-model="model"
-        :items="items"
-        :loading="isLoading"
-        :search-input.sync="search"
-        hide-no-data
-        hide-selected
-        item-text="Type"
-        label="Назва техніки"
-        placeholder="Start typing to Search"
-        prepend-icon="mdi-magnify"
-        return-object
-      ></v-autocomplete>
+      <v-combobox
+          v-model="model"
+          :items="items"
+          item-text="Type"
+          :search-input.sync="search"
+          label="Select a favorite activity or create a new one"
+          return-object
+          prepend-icon="mdi-magnify"
+          hide-no-data
+          hide-selected
+      ></v-combobox>
     </v-card-text>
     <v-divider></v-divider>
     <v-expand-transition>
@@ -46,17 +44,21 @@
               placeholder=" "
               outline
               ma-5
+              :rules="[rules.required, rules.counter]"
           ></v-text-field>
 
           <v-text-field
               label="Email"
               placeholder=" "
               outline
+              :rules="[rules.required, rules.email]"
               ma-5
           ></v-text-field>
           <v-text-field
               label="Номер телефону"
               placeholder=" "
+              prefix="+38 "
+              mask="phone"
               outline
               ma-5
           ></v-text-field>
@@ -88,7 +90,7 @@
   </v-content>
 </template>
 <script>
-import VueGoogleAutocomplete from '../common/VueGoogleAutocomplete';
+import VueGoogleAutocomplete from '../common/VueGoogleAutocomplete'
 
 export default {
   components: {
@@ -101,11 +103,19 @@ export default {
     isLoading: false,
     model: null,
     search: null,
+    rules: {
+          required: value => !!value || 'Required.',
+          counter: value => value.length <= 30 && value.length >= 3 || 'Min 3 Max 30 characters',
+          email: value => {
+            const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            return pattern.test(value) || 'Invalid e-mail.'
+          }
+    },
     entries: [
-                {"Name":"Трактор","Type":"Рачок","param1":"Яке навісне обладнання потрібно", "param2":"Потужність", "param3":"Обєм ковша в куб. м."},
-                {"Name":"Екскаватор","Type":"Екскаватор ковшовий","Instrument":"Обєм ковша","Parameters":"Довжина стріли"},
-                {"Name":"Кран","Type":"Автокран","Instrument":"", "Parameters":"Висота підйому", "Aditional":"Вантажопідємність"},
-                {"Name":"BobCat","Type":"BobCat","Instrument":"Ковш", "Parameters":"", "Aditional":""},
+                // {"Name":"Трактор","Type":"Рачок","param1":"Яке навісне обладнання потрібно", "param2":"Потужність", "param3":"Обєм ковша в куб. м."},
+                // {"Name":"Екскаватор","Type":"Екскаватор ковшовий","Instrument":"Обєм ковша","Parameters":"Довжина стріли"},
+                // {"Name":"Кран","Type":"Автокран","Instrument":"", "Parameters":"Висота підйому", "Aditional":"Вантажопідємність"},
+                // {"Name":"BobCat","Type":"BobCat","Instrument":"Ковш", "Parameters":"", "Aditional":""},
             ],
     next: false,
   }),
@@ -114,6 +124,9 @@ export default {
 
     fields() {
       if (!this.model) return [];
+      if (typeof this.model === 'string') {
+        return [{"value":"Додаткова інформація"}];
+      } 
       return Object.keys(this.model)
       .filter(key => key !== 'Name' && key !== 'Type')
       .map(key => {
@@ -141,14 +154,12 @@ export default {
 
     getAddressData: function (addressData, placeResultData, id) {
       this.address = addressData;
-      console.log(addressData.administrative_area_level_1);
-      console.log(id);
     }
 
   },
 
   watch: {
-    // search(val) {
+    search(val) {
       // Items have already been loaded
       // if (this.items.length > 0) return;
 
@@ -158,15 +169,15 @@ export default {
       // this.isLoading = true;
 
       // Lazily load input items
-        // this.entries = [
-        //     {"Name":"Трактор","Type":"Рачок","Instrument":"", "Parameters":"", "Aditional":""},
-        //     {"Name":"Екскаватор","Type":"Екскаватор ковшовий","Instrument":"Обєм ковша","Parameters":"Довжина стріли"},
-        //     {"Name":"Кран","Type":"Автокран","Instrument":"", "Parameters":"Висота підйому", "Aditional":"Вантажопідємність"},
-        //     {"Name":"BobCat","Type":"BobCat","Instrument":"Ковш", "Parameters":"", "Aditional":""},
-        // ];
+        this.entries = [
+            {"Name":"Трактор","Type":"Рачок","Instrument":"", "Parameters":"", "Aditional":""},
+            {"Name":"Екскаватор","Type":"Екскаватор ковшовий","Instrument":"Обєм ковша","Parameters":"Довжина стріли"},
+            {"Name":"Кран","Type":"Автокран","Instrument":"", "Parameters":"Висота підйому", "Aditional":"Вантажопідємність"},
+            {"Name":"BobCat","Type":"BobCat","Instrument":"Ковш", "Parameters":"", "Aditional":""},
+        ];
 
         // this.isLoading = false;
-    // }
+    }
   }
 };
 </script>
