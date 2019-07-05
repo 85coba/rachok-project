@@ -9,18 +9,23 @@ use App\Http\Request\Api\Order\AddOrderHttpRequest;
 use App\Action\Order\AddOrderRequest;
 use App\Action\Order\AddOrderAction;
 use App\Http\Presenter\OrderArrayPresenter;
+use App\Action\GetCollectionRequest;
+use App\Http\Request\Api\CollectionHttpRequest;
+use App\Action\Order\GetOrderCollectionAction;
 
-class OrderControler extends ApiController
+class OrderController extends ApiController
 {
     protected $presenter;
     protected $getOrderColectionAtion;
     protected $addOrderAction;
     protected $addOrderResponse;
+    protected $getOrderCollectionAction;
 
-    public function __construct(AddOrderAction $addOrderAction, OrderArrayPresenter $presenter)
+    public function __construct(AddOrderAction $addOrderAction, OrderArrayPresenter $presenter, GetOrderCollectionAction $getOrderColectionAtion)
     {
         $this->addOrderAction = $addOrderAction;
         $this->presenter = $presenter;
+        $this->getOrderColectionAtion = $getOrderColectionAtion;
     }
 
     public function addOrder(AddOrderHttpRequest $request):ApiResponse
@@ -41,5 +46,15 @@ class OrderControler extends ApiController
         return $this->created($this->presenter->present($response->getOrder()));
     }
 
-    
+    public function getOrderCollection(CollectionHttpRequest $request): ApiResponse 
+    {
+        $response = $this->getOrderColectionAtion->execute(
+            new GetCollectionRequest(
+                (int)$request->query('page'),
+                $request->query('sort'),
+                $request->query('direction')
+            )
+        );
+        return $this->createPaginatedResponse($response->getPaginator(), $this->presenter);
+    }    
 }

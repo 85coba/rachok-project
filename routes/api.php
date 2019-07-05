@@ -24,4 +24,15 @@ Route::prefix('v1')->group(function () {
         Route::post('/reset/password', 'AuthController@callResetPassword');
         Route::post('/reset-password', 'AuthController@sendPasswordResetLink');
     });
+    Route::group([
+        'middleware' => 'auth:api',
+        'namespace' => 'Api\\'
+    ], function(){
+        Route::group(['prefix' => 'order'], function(){
+            Route::post('/add','OrderController@addOrder');
+            Route::get('/all','OrderController@getOrderCollection');
+        });
+
+    });
+    
 });
