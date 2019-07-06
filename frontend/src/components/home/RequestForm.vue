@@ -6,7 +6,7 @@
     </v-card-title>
     <v-card-text>
       <v-combobox
-          v-model="model"
+          v-model="title"
           :items="items"
           item-text="Type"
           :search-input.sync="search"
@@ -19,9 +19,10 @@
     </v-card-text>
     <v-divider></v-divider>
     <v-expand-transition>
-      <v-card-text v-if="model && !next" >
+      <v-card-text v-if="title && !next" >
         <v-flex v-for="(field, i) in fields" :key="i">
             <v-text-field
+              v-model="order.features[field.value]"
               name="name"
               :label="field.value"
               placeholder=" "
@@ -40,6 +41,7 @@
     <v-card-text>
         <v-flex>
           <v-text-field
+              v-model="order.pib"
               label="ПІБ"
               placeholder=" "
               outline
@@ -48,6 +50,7 @@
           ></v-text-field>
 
           <v-text-field
+              v-model="order.email"
               label="Email"
               placeholder=" "
               outline
@@ -55,10 +58,12 @@
               ma-5
           ></v-text-field>
           <v-text-field
+              v-model="order.phoneNumber"
               label="Номер телефону"
               placeholder=" "
               prefix="+38 "
               mask="phone"
+              :rules="[rules.required]"
               outline
               ma-5
           ></v-text-field>
@@ -77,11 +82,11 @@
   <v-card>
   <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn :disabled="!model" color="green lighten-1" @click="next = true">
+      <v-btn :disabled="isOk" color="green lighten-1" @click="onOk">
         OK
         <v-icon right>mdi-check-circle</v-icon>
       </v-btn>
-      <v-btn :disabled="!model" color="blue-grey lighten-1" @click="onClear">
+      <v-btn :disabled="!title" color="blue-grey lighten-1" @click="onClear">
         Clear
         <v-icon right>mdi-close-circle</v-icon>
       </v-btn>
@@ -91,17 +96,30 @@
 </template>
 <script>
 import VueGoogleAutocomplete from '../common/VueGoogleAutocomplete'
+import { mapActions } from 'vuex';
+import showStatusToast from '@/components/mixin/showStatusToast'
 
 export default {
+  name: 'RequestForm',
+
+  mixins: [showStatusToast],
+
   components: {
     VueGoogleAutocomplete
   },
 
   data: () => ({
-    address: "",
-    descriptionLimit: 60,
-    isLoading: false,
-    model: null,
+    order: {
+      title:'',
+      info:'',
+      features:{},
+      pib:'',
+      region:'',
+      city:'',
+      email:'',
+      phoneNumber:''
+    },
+    title: null,
     search: null,
     rules: {
           required: value => !!value || 'Required.',
@@ -123,16 +141,16 @@ export default {
   computed: {
 
     fields() {
-      if (!this.model) return [];
-      if (typeof this.model === 'string') {
+      if (!this.title) return [];
+      if (typeof this.title === 'string') {
         return [{"value":"Додаткова інформація"}];
       } 
-      return Object.keys(this.model)
+      return Object.keys(this.title)
       .filter(key => key !== 'Name' && key !== 'Type')
       .map(key => {
         return {
           key,
-          value: this.model[key] || "n/a"
+          value: this.title[key] || "n/a"
         };
       });
     },
@@ -142,19 +160,46 @@ export default {
         const Type = entry.Type;
         return Object.assign({}, entry, { Type });
       });
+    },
+
+    isOk(){
+      if (!this.title) { 
+        return true;
+        } else {
+          return false;
+        }
     }
 
   },
   methods: {
 
+    async onOk() {
+      if (this.next === false ) {
+        this.next = true;
+      } else {
+        this.order.title = (this.title.Name) ? this.title.Name : this.title;
+        try {
+          await this.addOrder(this.order);
+          this.showSuccessMessage("Ваш запит додано!");
+          this.onClear();
+        } catch(error) {
+          this.showErrorMessage(error.message);
+        }
+        
+      }
+    },
+    
     onClear() {
-      this.model = null;
+      this.title = null;
       this.next = false;
     },
 
     getAddressData: function (addressData, placeResultData, id) {
-      this.address = addressData;
-    }
+      this.order.region = addressData.administrative_area_level_1;
+      this.order.city = addressData.locality;
+    },
+
+    ...mapActions('order',['addOrder']),
 
   },
 

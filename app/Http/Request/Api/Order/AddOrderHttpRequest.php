@@ -12,7 +12,6 @@ final class AddOrderHttpRequest extends ApiFormRequest
     {
         return [
             'title' => 'required|string',
-            'info' => 'required',
             'email' => 'required|email',
             'phoneNumber' => 'required'
         ];

@@ -33,7 +33,7 @@ class OrderController extends ApiController
         $response = $this->addOrderAction->execute(
             new AddOrderRequest(
                 $request->get('title'),
-                $request->get('info'),
+                (string)$request->get('info'),
                 $request->get('features'),
                 $request->get('region'),
                 $request->get('city'),

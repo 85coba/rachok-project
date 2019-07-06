@@ -19,4 +19,27 @@ export default {
             return Promise.reject(error);
         }
     },
+
+    async addOrder({ commit }, order) {
+        commit (SET_LOADING, true, {root: true});
+        try {
+            const addOrder = await api.post('/order/add', 
+                {
+                    title: order.title,
+                    info: order.info,
+                    features: JSON.stringify(order.features),
+                    pib: order.pib,
+                    region: order.region,
+                    city: order.city,
+                    email: order.email,
+                    phoneNumber: order.phoneNumber
+                });
+
+            commit(ORDER_ADD,addOrder);
+            commit(SET_LOADING, false, {root: true});
+        } catch(error) {
+            commit(SET_LOADING, false, {root: true});
+            return Promise.reject(error);
+        }
+    },
 };

@@ -12,7 +12,7 @@ final class AddOrderRequest
     private $city;
     private $pib;
     private $email;
-    private $phoneNamber;
+    private $phoneNumber;
 
     public function __construct(
         string $title, 
