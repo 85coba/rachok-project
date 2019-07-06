@@ -5,7 +5,7 @@ import mutations from './store/mutations';
 import getters from './store/getters';
 import actions from './store/actions';
 import auth from './store/modules/auth';
-
+import order from './store/modules/order';
 
 Vue.use(Vuex);
 
@@ -16,6 +16,7 @@ export default new Vuex.Store({
     actions,
     getters,
     modules: {
-        auth
+        auth,
+        order
     },
 });
