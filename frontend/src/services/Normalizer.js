@@ -17,3 +17,16 @@ export const emptyUser = () => ({
     firstName: '',
     lastName: '',
 });
+
+export const orderMapper = order => ({
+    id: order.id,
+    title: order.title,
+    info: order.info,
+    features: order.features,
+    region: order.region,
+    city: order.city,
+    pib: order.pib,
+    email: order.email,
+    phoneNumber: order.phoneNumber,
+    created: order.date
+});
