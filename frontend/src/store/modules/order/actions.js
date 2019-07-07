@@ -2,6 +2,8 @@ import { ORDER_ADD, ORDERS_SET } from './mutationTypes';
 import api from '@/api/Api';
 import { SET_LOADING } from '../../mutationTypes';
 import { orderMapper } from '@/services/Normalizer';
+import axios from 'axios/index';
+import { getSocketId } from '@/services/Pusher';
 
 export default {
     async fetchOrders({ commit }, { page }) {
@@ -23,7 +25,7 @@ export default {
     async addOrder({ commit }, order) {
         commit (SET_LOADING, true, {root: true});
         try {
-            const addOrder = await api.post('/order/add', 
+            const addOrder = await axios.post(`${process.env.VUE_APP_API_URL}/order/add`, 
                 {
                     title: order.title,
                     info: order.info,
@@ -33,7 +35,11 @@ export default {
                     city: order.city,
                     email: order.email,
                     phoneNumber: order.phoneNumber
-                });
+                },
+                {
+                    headers: { 'X-Socket-ID': getSocketId() }
+                }
+                );
 
             commit(ORDER_ADD,addOrder);
             commit(SET_LOADING, false, {root: true});
