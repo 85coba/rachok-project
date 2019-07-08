@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 final class OrderRepository implements Paginable
 {
-    public function create(array $fields): Tweet
+    public function create(array $fields): Order
     {
         return Order::create($fields);
     }

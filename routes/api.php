@@ -25,6 +25,7 @@ Route::prefix('v1')->group(function () {
         Route::post('/reset-password', 'AuthController@sendPasswordResetLink');
     });
     Route::post('/order/add','Api\OrderController@addOrder');
+    Route::get('/equipments','Api\EquipmentController@index');
     Route::group([
         'middleware' => 'auth:api',
         'namespace' => 'Api\\'

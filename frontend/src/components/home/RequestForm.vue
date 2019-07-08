@@ -129,12 +129,7 @@ export default {
             return pattern.test(value) || 'Invalid e-mail.'
           }
     },
-    entries: [
-                // {"Name":"Трактор","Type":"Рачок","param1":"Яке навісне обладнання потрібно", "param2":"Потужність", "param3":"Обєм ковша в куб. м."},
-                // {"Name":"Екскаватор","Type":"Екскаватор ковшовий","Instrument":"Обєм ковша","Parameters":"Довжина стріли"},
-                // {"Name":"Кран","Type":"Автокран","Instrument":"", "Parameters":"Висота підйому", "Aditional":"Вантажопідємність"},
-                // {"Name":"BobCat","Type":"BobCat","Instrument":"Ковш", "Parameters":"", "Aditional":""},
-            ],
+    entries: [],   
     next: false,
   }),
 
