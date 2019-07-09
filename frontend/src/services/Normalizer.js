@@ -30,3 +30,9 @@ export const orderMapper = order => ({
     phoneNumber: order.phoneNumber,
     created: order.date
 });
+
+export const equipmentMapper = equipment => ({
+    id: equipment.id,
+    name: equipment.name,
+    options: equipment.options
+});

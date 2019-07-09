@@ -8,7 +8,7 @@
       <v-combobox
           v-model="title"
           :items="items"
-          item-text="Type"
+          item-text="name"
           :search-input.sync="search"
           label="Select a favorite activity or create a new one"
           return-object
@@ -22,9 +22,8 @@
       <v-card-text v-if="title && !next" >
         <v-flex v-for="(field, i) in fields" :key="i">
             <v-text-field
-              v-model="order.features[field.value]"
-              name="name"
-              :label="field.value"
+              v-model="order.features[field.key]"
+              :label="field.key"
               placeholder=" "
               outline
               ma-5
@@ -140,12 +139,10 @@ export default {
       if (typeof this.title === 'string') {
         return [{"value":"Додаткова інформація"}];
       } 
-      return Object.keys(this.title)
-      .filter(key => key !== 'Name' && key !== 'Type')
+      return this.title.options
       .map(key => {
         return {
-          key,
-          value: this.title[key] || "n/a"
+          key 
         };
       });
     },
@@ -164,7 +161,6 @@ export default {
           return false;
         }
     }
-
   },
   methods: {
 
@@ -172,7 +168,7 @@ export default {
       if (this.next === false ) {
         this.next = true;
       } else {
-        this.order.title = (this.title.Name) ? this.title.Name : this.title;
+        this.order.title = (this.title.name) ? this.title.name : this.title;
         try {
           await this.addOrder(this.order);
           this.showSuccessMessage("Ваш запит додано!");
@@ -180,7 +176,6 @@ export default {
         } catch(error) {
           this.showErrorMessage(error.message);
         }
-        
       }
     },
     
@@ -194,29 +189,21 @@ export default {
       this.order.city = addressData.locality;
     },
 
-    ...mapActions('order',['addOrder']),
+    ...mapActions('order',['addOrder', 'fetchEquipments']),
 
   },
 
   watch: {
     search(val) {
-      // Items have already been loaded
-      // if (this.items.length > 0) return;
 
-      // Items have already been requested
-      // if (this.isLoading) return;
-
-      // this.isLoading = true;
-
-      // Lazily load input items
-        this.entries = [
-            {"Name":"Трактор","Type":"Рачок","Instrument":"", "Parameters":"", "Aditional":""},
-            {"Name":"Екскаватор","Type":"Екскаватор ковшовий","Instrument":"Обєм ковша","Parameters":"Довжина стріли"},
-            {"Name":"Кран","Type":"Автокран","Instrument":"", "Parameters":"Висота підйому", "Aditional":"Вантажопідємність"},
-            {"Name":"BobCat","Type":"BobCat","Instrument":"Ковш", "Parameters":"", "Aditional":""},
-        ];
-
-        // this.isLoading = false;
+      if (this.items.length > 0) return;
+      this.fetchEquipments()
+        .then((response) => { 
+          this.entries = [...response]; 
+          console.log(this.entries);
+        })
+        .catch((e) => { this.showErrorMessage(e.message); });
+      
     }
   }
 };
