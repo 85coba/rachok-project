@@ -22,7 +22,7 @@ export const orderMapper = order => ({
     id: order.id,
     title: order.title,
     info: order.info,
-    features: order.features,
+    features: JSON.parse(order.features),
     region: order.region,
     city: order.city,
     pib: order.pib,

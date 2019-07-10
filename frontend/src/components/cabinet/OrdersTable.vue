@@ -1,81 +1,127 @@
 <template>
+  <div>
     <v-list two-line>
-          <template v-for="(item, index) in items">
-            <v-list-tile
-              :key="item.id + 'id'"
-              avatar
-              ripple
-              @click="toggle(index)"
-            >
-              <v-list-tile-content>
-                <v-list-tile-title><v-icon>mdi-forklift</v-icon>{{ item.title }}</v-list-tile-title>
-                <v-list-tile-sub-title class="text--primary">{{ item.email }}</v-list-tile-sub-title>
-                <v-list-tile-sub-title>{{ item.city }}</v-list-tile-sub-title>
-              </v-list-tile-content>
+      <template v-for="(item, index) in items">
+        <v-list-tile :key="item.id + 'id'" avatar ripple @click="toggle(index, item)">
+          <v-list-tile-content>
+            <v-list-tile-title>
+              <v-icon>mdi-forklift</v-icon>
+              {{ item.title }}
+            </v-list-tile-title>
+            <v-list-tile-sub-title class="text--primary">{{ item.email }}</v-list-tile-sub-title>
+            <v-list-tile-sub-title>{{ item.city }}</v-list-tile-sub-title>
+          </v-list-tile-content>
 
-              <v-list-tile-action>
-                <v-list-tile-action-text>{{ item.created | createdDate }}</v-list-tile-action-text>
-                <v-icon
-                  v-if="selected.indexOf(index) < 0"
-                  color="grey lighten-1"
-                >
-                  star_border
-                </v-icon>
+          <v-list-tile-action>
+            <v-list-tile-action-text>{{ item.created | createdDate }}</v-list-tile-action-text>
+            <v-icon v-if="selected.indexOf(index) < 0" color="grey lighten-1">star_border</v-icon>
 
-                <v-icon
-                  v-else
-                  color="yellow darken-2"
-                >
-                  star
-                </v-icon>
-              </v-list-tile-action>
-
-            </v-list-tile>
-            <v-divider
-              v-if="index + 1 < items.length"
-              :key="index"
-            ></v-divider>
-          </template>
-        </v-list>
+            <v-icon v-else color="yellow darken-2">star</v-icon>
+          </v-list-tile-action>
+        </v-list-tile>
+        <v-divider v-if="index + 1 < items.length" :key="index"></v-divider>
       </template>
+    </v-list>
+    <v-layout row justify-center>
+      <v-dialog
+      v-model="dialog"
+      max-width="290"
+    >
+      <v-card>
+        <v-card-title class="headline justify-center">{{ item.title }} </v-card-title>
+        <v-layout align-center justify-center>
+              <v-icon color="red darken-2">mdi-map-marker</v-icon><span> {{ item.city }}, {{ item.region }} </span>
+        </v-layout>
+        <v-card-text>
+
+          <h4>Додаткова інформація</h4>
+          <v-divider></v-divider>
+          <p>{{ item.info }}</p>
+          <p v-for="(val, key) in item.features">
+            {{ key }}: {{ val }}
+          </p>
+          <h4>Контактна інформація</h4>
+          <v-divider></v-divider>
+            
+            <v-layout align-center wrap ma-3>
+              <v-icon color="green darken-2">mdi-account</v-icon><span> {{ item.pib  }}</span>
+            </v-layout>
+            <v-layout align-center wrap ma-3>
+              <v-icon color="green darken-2">mdi-phone</v-icon><span> {{ item.phoneNumber }}</span>
+            </v-layout>
+            
+            <v-layout align-center wrap ma-3>
+            <v-icon color="green darken-2">mdi-email</v-icon><span>{{ item.email }}</span>
+            </v-layout>
+            
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn
+            color="green darken-1"
+            flat="flat"
+            @click="dialog = false"
+          >
+            Оброблено
+          </v-btn>
+
+          <v-btn
+            color="red darken-1"
+            flat="flat"
+            @click="dialog = false"
+          >
+            Закрити
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-layout>
+  </div>
+</template>
  <script>
-  import { mapGetters, mapActions } from "vuex";
-  import showStatusToast from '@/components/mixin/showStatusToast'
-  export default {
-    name: "OrdrsTables",
+import { mapGetters, mapActions } from "vuex";
+import showStatusToast from "@/components/mixin/showStatusToast";
+export default {
+  name: "OrdrsTables",
 
-    mixins: [showStatusToast],
+  mixins: [showStatusToast],
 
-    data: () => ({
-      selected: [],
-    }),
+  data: () => ({
+    item:{},
+    selected: [],
+    dialog: false
+  }),
 
-    async created() {
-      try {
-        await this.fetchOrders({page: 1});
-      } catch(error) {
-        this.showErrorMessage(error.message);
-      }
-    },
+  async created() {
+    try {
+      await this.fetchOrders({ page: 1 });
+    } catch (error) {
+      this.showErrorMessage(error.message);
+    }
+  },
 
-    computed: {
-      ...mapGetters("order",{
-        items: "ordersSortedByCreatedDate"
-      })
-    },
+  computed: {
+    ...mapGetters("order", {
+      items: "ordersSortedByCreatedDate"
+    })
+  },
 
-    methods: {
-      ...mapActions("order", ["fetchOrders"]),
+  methods: {
+    ...mapActions("order", ["fetchOrders"]),
 
-      toggle (index) {
-        const i = this.selected.indexOf(index)
+    toggle(index, item) {
+      this.item = item;
+      this.dialog = true;
+      const i = this.selected.indexOf(index);
 
-        if (i > -1) {
-          this.selected.splice(i, 1)
-        } else {
-          this.selected.push(index)
-        }
+      if (i > -1) {
+        this.selected.splice(i, 1);
+      } else {
+        this.selected.push(index);
       }
     }
   }
+};
 </script>

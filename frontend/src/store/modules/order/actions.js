@@ -1,4 +1,4 @@
-import { ORDER_ADD, ORDERS_SET } from './mutationTypes';
+import { ORDERS_SET } from './mutationTypes';
 import api from '@/api/Api';
 import { SET_LOADING } from '../../mutationTypes';
 import { orderMapper, equipmentMapper } from '@/services/Normalizer';
@@ -25,11 +25,11 @@ export default {
     async addOrder({ commit }, order) {
         commit (SET_LOADING, true, {root: true});
         try {
-            const addOrder = await axios.post(`${process.env.VUE_APP_API_URL}/order/add`, 
+            await axios.post(`${process.env.VUE_APP_API_URL}/order/add`, 
                 {
                     title: order.title,
                     info: order.info,
-                    features: JSON.stringify(order.features),
+                    features: order.features,
                     pib: order.pib,
                     region: order.region,
                     city: order.city,
@@ -41,7 +41,7 @@ export default {
                 }
                 );
 
-            commit(ORDER_ADD,addOrder);
+            
             commit(SET_LOADING, false, {root: true});
         } catch(error) {
             commit(SET_LOADING, false, {root: true});

@@ -169,12 +169,13 @@ export default {
         this.next = true;
       } else {
         this.order.title = (this.title.name) ? this.title.name : this.title;
+        this.order.features = JSON.stringify(this.order.features);
         try {
           await this.addOrder(this.order);
           this.showSuccessMessage("Ваш запит додано!");
           this.onClear();
         } catch(error) {
-          this.showErrorMessage(error.message);
+          this.showErrorMessage(error.message + "in addForm");
         }
       }
     },
@@ -200,7 +201,6 @@ export default {
       this.fetchEquipments()
         .then((response) => { 
           this.entries = [...response]; 
-          console.log(this.entries);
         })
         .catch((e) => { this.showErrorMessage(e.message); });
       
