@@ -7,10 +7,13 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Prophecy\Exception\InvalidArgumentException;
+use App\Contracts\Remover;
+use App\Traits\CanRemove;
+use App\Traits\CanProcess;
 
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable implements JWTSubject, Remover
 {
-    use Notifiable;
+    use Notifiable, CanRemove, CanProcess;
 
     /**
      * The attributes that are mass assignable.

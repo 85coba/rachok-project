@@ -2,16 +2,23 @@
 
 namespace App\Models;
 
+use Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use App\Contracts\Removeble;
+use App\Contacts\Processble;
 use Prophecy\Exception\InvalidArgumentException;
+use App\Traits\CanBeRemoved;
+use App\Traits\CanBeProcessed;
 
 
-final class Order extends Model
+final class Order extends Model implements Removeble
 {
-   protected $table = "orders";
+    use CanBeRemoved, CanBeProcessed;
+
+    protected $table = "orders";
    
-   protected $fillable = [
+    protected $fillable = [
         'title',
         'features',
         'info',

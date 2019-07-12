@@ -20,7 +20,7 @@ final class GetOrderCollectionAction
     public function execute(GetCollectionRequest $request):PaginatedResponse
     {
         return new PaginatedResponse(
-            $this->repository->getFiltredOrders(
+            $this->repository->paginate(
                 $request->getPage() ?: OrderRepository::DEFAULT_PAGE,
                 OrderRepository::DEFAULT_PER_PAGE,
                 $request->getSort() ?: OrderRepository::DEFAULT_SORT,

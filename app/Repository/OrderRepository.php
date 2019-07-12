@@ -7,6 +7,9 @@ namespace App\Repository;
 use App\Models\Order;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Auth;
+use Log;
+
 
 final class OrderRepository implements Paginable
 {
@@ -39,5 +42,18 @@ final class OrderRepository implements Paginable
     public function delete(Order $order): ?bool
     {
         return $order->delete();
+    }
+
+    public function getFiltredOrders(
+        int $page = self::DEFAULT_PAGE,
+        int $perPage = self::DEFAULT_PER_PAGE,
+        string $sort = self::DEFAULT_SORT,
+        string $direction = self::DEFAULT_DIRECTION
+    ): LengthAwarePaginator {
+        $model = Auth::user();
+
+        $blockingsIds = collect($model->removing(Order::class)->get()->toArray())->pluck($model->getKeyName())->all();
+        Log::info(count($blockingsIds));
+        return Order::whereNotIn('id', $blockingsIds)->orderBy($sort, $direction)->paginate($perPage, ['*'], null, $page);
     }
 }
