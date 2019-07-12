@@ -8,10 +8,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Prophecy\Exception\InvalidArgumentException;
 use App\Contracts\Remover;
+use App\Contracts\Processor;
 use App\Traits\CanRemove;
 use App\Traits\CanProcess;
 
-class User extends Authenticatable implements JWTSubject, Remover
+class User extends Authenticatable implements JWTSubject, Remover, Processor
 {
     use Notifiable, CanRemove, CanProcess;
 

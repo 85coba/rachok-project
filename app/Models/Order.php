@@ -6,13 +6,13 @@ use Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use App\Contracts\Removeble;
-use App\Contacts\Processble;
+use App\Contracts\Processble;
 use Prophecy\Exception\InvalidArgumentException;
 use App\Traits\CanBeRemoved;
 use App\Traits\CanBeProcessed;
 
 
-final class Order extends Model implements Removeble
+final class Order extends Model implements Removeble, Processble
 {
     use CanBeRemoved, CanBeProcessed;
 
