@@ -3,8 +3,7 @@
 namespace App\Action\Order;
 
 use App\Models\Order;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+use Auth;
 
 use Log;
 
@@ -14,8 +13,7 @@ final class RemoveOrderFromUserListAction
     {
 
         Log::info($id);
-        $user = \Auth::user();
-        Log::info($user);
+        $user = Auth::user();
         $order = Order::find($id);
         return $user->remove($order);
     }

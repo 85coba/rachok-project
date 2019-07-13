@@ -11,8 +11,7 @@ final class IsProcessedOrderAction
 {
     public function execute($id)
     {
-        // $user = Auth::user();
-        $user = User::find(1);
+        $user = Auth::user();
         $order = Order::find($id);
         if ($user->isProcessed($order)) return 'Processed';
         return 'notProcessed';
