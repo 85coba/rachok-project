@@ -9,7 +9,7 @@ trait CanRemove
 {
     public function removing($model = null) 
     {
-        return $this->morphToMany(($model) ?: $this->getMorphClass(), 'remover', 'removes', 'romover_id', 'removed_id')
+        return $this->morphToMany(($model) ?: $this->getMorphClass(), 'remover', 'removes', 'remover_id', 'removed_id')
         ->withPivot('removed_type')
         ->wherePivot('removed_type', ($model) ?: $this->getMorphClass())
         ->wherePivot('remover_type', $this->getMorphClass());
@@ -24,9 +24,9 @@ trait CanRemove
         return (bool) ! is_null($this->removing($model->getMorphClass())->find($model->getKey()));
     }
 
-    public function removeFrom($model = null): bool
+    public function remove($model = null): bool
     {
-        if (! $model instanceof Removeble && $model instanceof Remover) {
+        if (! $model instanceof Removeble && ! $model instanceof Remover) {
             return false;
         }
 

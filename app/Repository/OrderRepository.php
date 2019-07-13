@@ -7,7 +7,7 @@ namespace App\Repository;
 use App\Models\Order;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Log;
 
 
@@ -53,7 +53,7 @@ final class OrderRepository implements Paginable
         $model = Auth::user();
 
         $blockingsIds = collect($model->removing(Order::class)->get()->toArray())->pluck($model->getKeyName())->all();
-        Log::info(count($blockingsIds));
+        
         return Order::whereNotIn('id', $blockingsIds)->orderBy($sort, $direction)->paginate($perPage, ['*'], null, $page);
     }
 }

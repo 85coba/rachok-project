@@ -1,9 +1,9 @@
 <?php
 
+namespace App\Traits;
+
 use App\Contracts\Processble;
 use App\Contracts\Processor;
-
-namespace App\Traits;
 
 trait CanProcess
 {
@@ -11,8 +11,8 @@ trait CanProcess
     {
         return $this->morphToMany(($model) ?: $this->getMorphClass(), 'processor', 'processeds', 'processor_id', 'processed_id')
             ->withPivot('processed_type')
-            ->wherePivot('processed_type', ($model) ?: $this->getMorpClass())
-            ->wherePivot('processor_type', $this->getMorpClass());
+            ->wherePivot('processed_type', ($model) ?: $this->getMorphClass())
+            ->wherePivot('processor_type', $this->getMorphClass());
     }
 
     public function isProcessed($model): bool
@@ -24,8 +24,9 @@ trait CanProcess
         return (bool) ! is_null($this->processing($model->getMorphClass())->find($model->getKey()));
     }
 
-    public function process($model): bool
+    public function process($model = null): bool
     {
+       
         if (! $model instanceof Processble && ! $model instanceof Processor ) {
             return false;
         }
@@ -33,7 +34,7 @@ trait CanProcess
         if ($this->isProcessed($model)) {
             return false;
         }
-
+        
         $this->processing()->attach($this->getKey(), [
             'processor_id' => $this->getKey(),
             'processed_type' => $model->getMorphClass(),
@@ -43,7 +44,7 @@ trait CanProcess
         return true;
     }
 
-    public function unprocess($model): bool
+    public function unprocess($model = null): bool
     {
         if (! $model instanceof Processble && ! $model instanceof Processor ) {
             return false;

@@ -8,6 +8,6 @@ interface Remover
 
     public function isRemoved($model = null): bool;
 
-    public function removeFrom($model = null): bool;
+    public function remove($model = null): bool;
     
 }

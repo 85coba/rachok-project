@@ -12,6 +12,12 @@ use App\Http\Presenter\OrderArrayPresenter;
 use App\Action\GetCollectionRequest;
 use App\Http\Request\Api\CollectionHttpRequest;
 use App\Action\Order\GetOrderCollectionAction;
+use App\Action\Order\RemoveOrderFromUserListAction;
+use App\Action\Order\ProcessOrderAction;
+use App\Action\Order\UnprocessOrderAction;
+use App\Action\Order\IsProcessedOrderAction;
+
+use Log;
 
 class OrderController extends ApiController
 {
@@ -20,12 +26,28 @@ class OrderController extends ApiController
     protected $addOrderAction;
     protected $addOrderResponse;
     protected $getOrderCollectionAction;
+    protected $removeOrderFromUserListAction;
+    protected $processOrderAction;
+    protected $unprocessOrderAction;
+    protected $isProcessedOrderAction;
 
-    public function __construct(AddOrderAction $addOrderAction, OrderArrayPresenter $presenter, GetOrderCollectionAction $getOrderColectionAtion)
+    public function __construct(
+            AddOrderAction $addOrderAction, 
+            OrderArrayPresenter $presenter, 
+            GetOrderCollectionAction $getOrderColectionAtion,
+            RemoveOrderFromUserListAction $removeOrderFromUserListAction,
+            ProcessOrderAction $processOrderAction,
+            UnprocessOrderAction $unprocessOrderAction,
+            IsProcessedOrderAction $isProcessedOrderAction
+        )
     {
+        $this->removeOrderFromUserListAction = $removeOrderFromUserListAction;
         $this->addOrderAction = $addOrderAction;
         $this->presenter = $presenter;
         $this->getOrderColectionAtion = $getOrderColectionAtion;
+        $this->processOrderAction = $processOrderAction;
+        $this->unprocessOrderAction = $unprocessOrderAction;
+        $this->isProcessedOrderAction = $isProcessedOrderAction;
     }
 
     public function addOrder(AddOrderHttpRequest $request):ApiResponse
@@ -56,5 +78,25 @@ class OrderController extends ApiController
             )
         );
         return $this->createPaginatedResponse($response->getPaginator(), $this->presenter);
-    }    
+    }
+
+    public function removeOrderFromUserList(Request $request) 
+    {   
+        $this->removeOrderFromUserListAction->execute($request->get('id'));
+    }
+
+    public function processOrder(Request $request)
+    {
+        $this->processOrderAction->execute($request->get('id'));
+    }
+
+    public function unprocessOrder(Request $request)
+    {
+        $this->unprocessOrderAction->execute($request->get('id'));
+    }
+
+    public function isProcessed($id)
+    {
+        return $this->isProcessedOrderAction->execute($id);
+    }
 }

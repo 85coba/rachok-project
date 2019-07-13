@@ -19,7 +19,7 @@ class CreateRemovesTable extends Migration
             $table->bigInteger('removed_id');
             $table->string('removed_type');
 
-            $table->bigInteger('romover_id')->nullable();
+            $table->bigInteger('remover_id')->nullable();
             $table->string('remover_type')->nullable();
         });
     }

@@ -26,12 +26,17 @@ Route::prefix('v1')->group(function () {
     });
     Route::post('/order/add','Api\OrderController@addOrder');
     Route::get('/equipments','Api\EquipmentController@index');
+    Route::post('/remove', 'Api\OrderController@removeOrderFromUserList');
+    Route::post('/process', 'Api\OrderController@processOrder');
+    Route::post('/unprocess', 'Api\OrderController@unprocessOrder');
+    Route::get('/isprocessed/{id}', 'Api\OrderController@isProcessed');
     Route::group([
         'middleware' => 'auth:api',
         'namespace' => 'Api\\'
     ], function(){
         Route::group(['prefix' => 'order'], function(){
-            Route::get('/all','OrderController@getOrderCollection');
+            Route::get('/all', 'OrderController@getOrderCollection');
+            
         });
 
     });
