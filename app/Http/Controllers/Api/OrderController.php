@@ -94,6 +94,7 @@ class OrderController extends ApiController
     public function unprocessOrder(Request $request)
     {
         $this->unprocessOrderAction->execute($request->get('id'));
+        return $this->createSuccessResponse(['order was UNprocessed']);
     }
 
     public function isProcessed($id)

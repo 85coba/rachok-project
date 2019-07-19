@@ -59,11 +59,20 @@
           <v-spacer></v-spacer>
 
           <v-btn
+            v-if="!item.processed"
             color="green darken-1"
             flat="flat"
             @click="doProcessed(item.id)"
           >
             Оброблено
+          </v-btn>
+          <v-btn
+            v-else
+            color="green darken-1"
+            flat="flat"
+            @click="doNotProcessed(item.id)"
+          >
+            Не оброблено
           </v-btn>
 
           <v-btn
@@ -108,7 +117,7 @@ export default {
   },
 
   methods: {
-    ...mapActions("order", ["fetchOrders", "processed"]),
+    ...mapActions("order", ["fetchOrders", "processed", "unProcessed"]),
 
     toggle(index, item) {
       this.item = item;
@@ -118,6 +127,11 @@ export default {
     doProcessed(id) {
       this.processed(id);
       this.dialog = false;
+    },
+
+    doNotProcessed(id) {
+      this.unProcessed(id);
+      this.dialog = false
     }
   }
 };
