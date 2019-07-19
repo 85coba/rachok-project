@@ -14,8 +14,7 @@
 
           <v-list-tile-action>
             <v-list-tile-action-text>{{ item.created | createdDate }}</v-list-tile-action-text>
-            <v-icon v-if="selected.indexOf(index) < 0" color="grey lighten-1">star_border</v-icon>
-
+            <v-icon v-if="!item.processed" color="grey lighten-1">star_border</v-icon>
             <v-icon v-else color="yellow darken-2">star</v-icon>
           </v-list-tile-action>
         </v-list-tile>
@@ -62,7 +61,7 @@
           <v-btn
             color="green darken-1"
             flat="flat"
-            @click="dialog = false"
+            @click="doProcessed(item.id)"
           >
             Оброблено
           </v-btn>
@@ -109,18 +108,16 @@ export default {
   },
 
   methods: {
-    ...mapActions("order", ["fetchOrders"]),
+    ...mapActions("order", ["fetchOrders", "processed"]),
 
     toggle(index, item) {
       this.item = item;
       this.dialog = true;
-      const i = this.selected.indexOf(index);
+    },
 
-      if (i > -1) {
-        this.selected.splice(i, 1);
-      } else {
-        this.selected.push(index);
-      }
+    doProcessed(id) {
+      this.processed(id);
+      this.dialog = false;
     }
   }
 };

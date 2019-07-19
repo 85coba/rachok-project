@@ -4,6 +4,7 @@ namespace App\Http\Presenter;
 
 use App\Models\Order;
 use Illuminate\Support\Collection;
+use Auth;
 
 final class OrderArrayPresenter implements CollectionAsArrayPresenter
 {
@@ -19,7 +20,8 @@ final class OrderArrayPresenter implements CollectionAsArrayPresenter
             'pib' => $order->getPib(),
             'email' => $order->getEmail(),
             'phoneNumber' => $order->getPhoneNumber(),
-            'date' => $order->getCreatedAt()->toDateTimeString()
+            'date' => $order->getCreatedAt()->toDateTimeString(),
+            'processed' => Auth::user()->isProcessed($order)
         ];
     }
 

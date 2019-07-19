@@ -1,4 +1,4 @@
-import { ORDERS_SET } from './mutationTypes';
+import { ORDERS_SET, ORDER_SET_PROCESSED } from './mutationTypes';
 import api from '@/api/Api';
 import { SET_LOADING } from '../../mutationTypes';
 import { orderMapper, equipmentMapper } from '@/services/Normalizer';
@@ -11,7 +11,6 @@ export default {
 
         try {
             const orders = await api.get('/order/all', { page });
-
             commit(ORDERS_SET, orders);
             commit(SET_LOADING, false, {root: true});
             
@@ -65,6 +64,19 @@ export default {
             commit(SET_LOADING, false, {root: true});
             return Promise.reject(error);
         }
+    },
 
-    }
+    async processed ( {commit}, id ) {
+        commit(SET_LOADING, true, {root: true});
+
+        try {
+            await api.post(`${process.env.VUE_APP_API_URL}/process`,{ id: id });
+
+            commit(ORDER_SET_PROCESSED, id);
+            commit(SET_LOADING, false, {root: true});
+        } catch(error) {
+            commit(SET_LOADING, false, {root: true});
+            return Promise.reject(error);
+        }
+    } 
 };

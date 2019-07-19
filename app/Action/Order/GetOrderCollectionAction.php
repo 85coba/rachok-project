@@ -19,6 +19,7 @@ final class GetOrderCollectionAction
 
     public function execute(GetCollectionRequest $request):PaginatedResponse
     {
+        
         return new PaginatedResponse(
             $this->repository->getFiltredOrders(
                 $request->getPage() ?: OrderRepository::DEFAULT_PAGE,
@@ -28,4 +29,23 @@ final class GetOrderCollectionAction
             )
         );
     }
+
+    // public function setProcessedStatus(Order $order)
+    // {
+    //     $user = Auth::user();
+    //     if ($user->isProcessed($order)) {
+    //         $order->processed = true;
+    //     } else {
+    //         $order->processed = false;
+    //     }
+    //     return $order;
+    // }
+
+    // public function checkArray ($orders)
+    // {
+    //     foreach ($orders as $order) {
+    //         $order = $this->setProcessedStatus($order);
+    //     }
+    //     return $orders;
+    // }
 }

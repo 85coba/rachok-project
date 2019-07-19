@@ -1,4 +1,4 @@
-import { ORDER_ADD, ORDERS_SET } from './mutationTypes';
+import { ORDER_ADD, ORDERS_SET, ORDER_SET_PROCESSED } from './mutationTypes';
 import { orderMapper } from '@/services/Normalizer';
 
 export default {
@@ -16,5 +16,9 @@ export default {
                 (prev, order) => ({ ...prev, [order.id]: orderMapper(order) }), {}
             ),
         };
-    }
+    },
+
+    [ORDER_SET_PROCESSED]: (state, id) => {
+        state.orders[id].processed = true;
+    },
 }

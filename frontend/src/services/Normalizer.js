@@ -28,7 +28,8 @@ export const orderMapper = order => ({
     pib: order.pib,
     email: order.email,
     phoneNumber: order.phoneNumber,
-    created: order.date
+    created: order.date,
+    processed: order.processed,
 });
 
 export const equipmentMapper = equipment => ({
