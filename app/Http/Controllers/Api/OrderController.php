@@ -65,7 +65,7 @@ class OrderController extends ApiController
             )
         );
 
-        return $this->created($this->presenter->present($response->getOrder()));
+        return $this->created(["created"]);
     }
 
     public function getOrderCollection(CollectionHttpRequest $request): ApiResponse 
@@ -80,9 +80,10 @@ class OrderController extends ApiController
         return $this->createPaginatedResponse($response->getPaginator(), $this->presenter);
     }
 
-    public function removeOrderFromUserList(Request $request) 
+    public function removeOrderFromUserList($id) 
     {   
-        $this->removeOrderFromUserListAction->execute($request->get('id'));
+        $this->removeOrderFromUserListAction->execute($id);
+        return $this->createDeletedResponse();
     }
 
     public function processOrder(Request $request)

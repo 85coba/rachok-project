@@ -2,8 +2,8 @@
 
 namespace App\Traits;
 
-use App\Contacts\Removeble;
-use App\Contacts\Remover;
+use App\Contracts\Removeble;
+use App\Contracts\Remover;
 
 trait CanRemove
 {
@@ -26,6 +26,7 @@ trait CanRemove
 
     public function remove($model = null): bool
     {
+        
         if (! $model instanceof Removeble && ! $model instanceof Remover) {
             return false;
         }

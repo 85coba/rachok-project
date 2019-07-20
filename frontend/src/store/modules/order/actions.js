@@ -1,4 +1,4 @@
-import { ORDERS_SET, ORDER_SET_PROCESSED, ORDER_SET_UNPROCESSED } from './mutationTypes';
+import { ORDERS_SET, ORDER_SET_PROCESSED, ORDER_SET_UNPROCESSED, ORDER_REMOVE } from './mutationTypes';
 import api from '@/api/Api';
 import { SET_LOADING } from '../../mutationTypes';
 import { orderMapper, equipmentMapper } from '@/services/Normalizer';
@@ -92,7 +92,20 @@ export default {
             commit(SET_LOADING, false, {root: true});
             return Promise.reject(error);
         }
-    } 
+    },
 
+    async removeOrder ( {commit}, id ) {
+        commit(SET_LOADING, true, {root: true});
+
+        try {
+            await api.delete(`${process.env.VUE_APP_API_URL}/remove/${id}`);
+
+            commit(ORDER_REMOVE, id);
+            commit(SET_LOADING, false, {root: true});
+        } catch(error) {
+            commit(SET_LOADING, false, {root: true});
+            return Promise.reject(error);
+        }
+    }
 
 };

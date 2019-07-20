@@ -1,5 +1,6 @@
-import { ORDER_ADD, ORDERS_SET, ORDER_SET_PROCESSED, ORDER_SET_UNPROCESSED } from './mutationTypes';
+import { ORDER_ADD, ORDERS_SET, ORDER_SET_PROCESSED, ORDER_SET_UNPROCESSED, ORDER_REMOVE } from './mutationTypes';
 import { orderMapper } from '@/services/Normalizer';
+import Vue from 'vue';
 
 export default {
     [ORDER_ADD]: (state, order) => {
@@ -21,7 +22,12 @@ export default {
     [ORDER_SET_PROCESSED]: (state, id) => {
         state.orders[id].processed = true;
     },
+
     [ORDER_SET_UNPROCESSED]: (state, id) => {
         state.orders[id].processed = false;
+    },
+
+    [ORDER_REMOVE]: (state, id) => {
+        Vue.delete (state.orders, id);
     }
 }

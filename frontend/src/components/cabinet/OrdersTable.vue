@@ -21,10 +21,11 @@
         <v-divider v-if="index + 1 < items.length" :key="index"></v-divider>
       </template>
     </v-list>
+    
     <v-layout row justify-center>
       <v-dialog
       v-model="dialog"
-      max-width="290"
+      max-width="320"
     >
       <v-card>
         <v-card-title class="headline justify-center">{{ item.title }} </v-card-title>
@@ -36,7 +37,7 @@
           <h4>Додаткова інформація</h4>
           <v-divider></v-divider>
           <p>{{ item.info }}</p>
-          <p v-for="(val, key) in item.features">
+          <p v-for="(val, key) in item.features" :key=key>
             {{ key }}: {{ val }}
           </p>
           <h4>Контактна інформація</h4>
@@ -52,12 +53,17 @@
             <v-layout align-center wrap ma-3>
             <v-icon color="green darken-2">mdi-email</v-icon><span>{{ item.email }}</span>
             </v-layout>
-            
         </v-card-text>
 
         <v-card-actions>
           <v-spacer></v-spacer>
-
+          <v-btn
+            color="green darken-1"
+            flat="flat"
+            @click="onRemove(item.id)"
+          >
+            <v-icon color="red large">mdi-trash-can-outline</v-icon>
+          </v-btn>
           <v-btn
             v-if="!item.processed"
             color="green darken-1"
@@ -74,13 +80,11 @@
           >
             Не оброблено
           </v-btn>
-
           <v-btn
-            color="red darken-1"
             flat="flat"
             @click="dialog = false"
           >
-            Закрити
+            <v-icon color="grey">mdi-redo-variant</v-icon>
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -117,7 +121,12 @@ export default {
   },
 
   methods: {
-    ...mapActions("order", ["fetchOrders", "processed", "unProcessed"]),
+    ...mapActions("order", [
+      "fetchOrders", 
+      "processed", 
+      "unProcessed",
+      "removeOrder"
+    ]),
 
     toggle(index, item) {
       this.item = item;
@@ -131,7 +140,12 @@ export default {
 
     doNotProcessed(id) {
       this.unProcessed(id);
-      this.dialog = false
+      this.dialog = false;
+    },
+
+    onRemove(id) {
+      this.removeOrder(id);
+      this.dialog = false;
     }
   }
 };

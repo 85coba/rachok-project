@@ -26,7 +26,7 @@ Route::prefix('v1')->group(function () {
     });
     Route::post('/order/add','Api\OrderController@addOrder');
     Route::get('/equipments','Api\EquipmentController@index');
-    Route::post('/remove', 'Api\OrderController@removeOrderFromUserList');
+    Route::delete('/remove/{id}', 'Api\OrderController@removeOrderFromUserList');
     Route::post('/process', 'Api\OrderController@processOrder');
     Route::post('/unprocess', 'Api\OrderController@unprocessOrder');
     Route::get('/isprocessed/{id}', 'Api\OrderController@isProcessed');
