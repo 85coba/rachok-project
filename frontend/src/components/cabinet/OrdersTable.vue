@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-list two-line>
-      <transition-group name="list" tag="span">
+      <transition-group name="slide-prev" tag="span">
         <template v-for="(item, index) in items" name="fade">
           <v-list-tile :key="item.id + 'id'" avatar ripple @click="toggle(index, item)">
             <v-list-tile-content>
@@ -15,8 +15,16 @@
 
             <v-list-tile-action>
               <v-list-tile-action-text>{{ item.created | createdDate }}</v-list-tile-action-text>
-              <v-icon v-if="!item.processed" color="grey lighten-1">star_border</v-icon>
-              <v-icon v-else color="yellow darken-2">star</v-icon>
+              <!-- <v-icon v-if="!item.processed" color="grey lighten-1">star_border</v-icon>
+              <v-icon v-else color="yellow darken-2">star</v-icon> -->
+              <v-scroll-x-transition>
+              <v-icon
+                v-if="item.processed"
+                color="success"
+              >
+                check
+              </v-icon>
+            </v-scroll-x-transition>
             </v-list-tile-action>
           </v-list-tile>
           <v-divider v-if="index + 1 < items.length" :key="index"></v-divider>
@@ -141,10 +149,10 @@ export default {
 </script>
 <style scope>
 
-.list-enter-active, .list-leave-active {
+.slide-prev-enter-active, .slide-prev-leave-active {
   transition: all 0.5s;
 }
-.list-enter, .list-leave-to {
+.slide-prev-enter, .slide-prev-leave-to {
   opacity: 0;
   transform: translateX(230px);
 }
