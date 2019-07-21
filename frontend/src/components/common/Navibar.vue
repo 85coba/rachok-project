@@ -1,5 +1,6 @@
 <template>
-    <v-toolbar home dark color="blue darken-3">
+    <v-toolbar app clipped-left dark color="blue darken-3">
+      <v-toolbar-side-icon @click.native="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title class="headline text-uppercase">
         <router-link :to="{name: 'home'}" class="tool-bar-link"><span>Рачок</span></router-link>
       </v-toolbar-title>

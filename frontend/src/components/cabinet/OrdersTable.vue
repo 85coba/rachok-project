@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-content >
     <v-list two-line>
       <transition-group name="slide-prev" tag="span">
         <template v-for="(item, index) in items" name="fade">
@@ -87,7 +87,7 @@
         </v-card>
       </v-dialog>
     </v-layout>
-  </div>
+  </v-content>
 </template>
  <script>
 import { mapGetters, mapActions } from "vuex";

@@ -1,16 +1,13 @@
 <template>
   <v-app>
-    <div 
-    class="hide-overflow"
-    style="position: relative;"
-    >
+    <div>
       <Navibar></Navibar>
       <div
         id="scrolling-techniques"
         class="scroll-y"
         style="max-height: 550px"
       >
-      <router-view />
+      <router-view/>
       </div>
     <Loading></Loading>
     </div>
