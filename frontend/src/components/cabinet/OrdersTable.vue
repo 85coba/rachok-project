@@ -1,95 +1,84 @@
 <template>
   <div>
     <v-list two-line>
-      <template v-for="(item, index) in items">
-        <v-list-tile :key="item.id + 'id'" avatar ripple @click="toggle(index, item)">
-          <v-list-tile-content>
-            <v-list-tile-title>
-              <v-icon>mdi-forklift</v-icon>
-              {{ item.title }}
-            </v-list-tile-title>
-            <v-list-tile-sub-title class="text--primary">{{ item.email }}</v-list-tile-sub-title>
-            <v-list-tile-sub-title>{{ item.city }}</v-list-tile-sub-title>
-          </v-list-tile-content>
+      <transition-group name="list" tag="span">
+        <template v-for="(item, index) in items" name="fade">
+          <v-list-tile :key="item.id + 'id'" avatar ripple @click="toggle(index, item)">
+            <v-list-tile-content>
+              <v-list-tile-title>
+                <v-icon>mdi-forklift</v-icon>
+                {{ item.title }}
+              </v-list-tile-title>
+              <v-list-tile-sub-title class="text--primary">{{ item.email }}</v-list-tile-sub-title>
+              <v-list-tile-sub-title>{{ item.city }}</v-list-tile-sub-title>
+            </v-list-tile-content>
 
-          <v-list-tile-action>
-            <v-list-tile-action-text>{{ item.created | createdDate }}</v-list-tile-action-text>
-            <v-icon v-if="!item.processed" color="grey lighten-1">star_border</v-icon>
-            <v-icon v-else color="yellow darken-2">star</v-icon>
-          </v-list-tile-action>
-        </v-list-tile>
-        <v-divider v-if="index + 1 < items.length" :key="index"></v-divider>
-      </template>
+            <v-list-tile-action>
+              <v-list-tile-action-text>{{ item.created | createdDate }}</v-list-tile-action-text>
+              <v-icon v-if="!item.processed" color="grey lighten-1">star_border</v-icon>
+              <v-icon v-else color="yellow darken-2">star</v-icon>
+            </v-list-tile-action>
+          </v-list-tile>
+          <v-divider v-if="index + 1 < items.length" :key="index"></v-divider>
+        </template>
+      </transition-group>
     </v-list>
-    
+
     <v-layout row justify-center>
-      <v-dialog
-      v-model="dialog"
-      max-width="320"
-    >
-      <v-card>
-        <v-card-title class="headline justify-center">{{ item.title }} </v-card-title>
-        <v-layout align-center justify-center>
-              <v-icon color="red darken-2">mdi-map-marker</v-icon><span> {{ item.city }}, {{ item.region }} </span>
-        </v-layout>
-        <v-card-text>
+      <v-dialog v-model="dialog" max-width="340">
+        <v-card>
+          <v-card-title class="headline justify-center">{{ item.title }}</v-card-title>
+          <v-layout align-center justify-center>
+            <v-icon color="red darken-2">mdi-map-marker</v-icon>
+            <span>{{ item.city }}, {{ item.region }}</span>
+          </v-layout>
+          <v-card-text>
+            <h4>Додаткова інформація</h4>
+            <v-divider></v-divider>
+            <p>{{ item.info }}</p>
+            <p v-for="(val, key) in item.features" :key="key">{{ key }}: {{ val }}</p>
+            <h4>Контактна інформація</h4>
+            <v-divider></v-divider>
 
-          <h4>Додаткова інформація</h4>
-          <v-divider></v-divider>
-          <p>{{ item.info }}</p>
-          <p v-for="(val, key) in item.features" :key=key>
-            {{ key }}: {{ val }}
-          </p>
-          <h4>Контактна інформація</h4>
-          <v-divider></v-divider>
-            
             <v-layout align-center wrap ma-3>
-              <v-icon color="green darken-2">mdi-account</v-icon><span> {{ item.pib  }}</span>
+              <v-icon color="green darken-2">mdi-account</v-icon>
+              <span>{{ item.pib }}</span>
             </v-layout>
             <v-layout align-center wrap ma-3>
-              <v-icon color="green darken-2">mdi-phone</v-icon><span> {{ item.phoneNumber }}</span>
+              <v-icon color="green darken-2">mdi-phone</v-icon>
+              <span>{{ item.phoneNumber }}</span>
             </v-layout>
-            
-            <v-layout align-center wrap ma-3>
-            <v-icon color="green darken-2">mdi-email</v-icon><span>{{ item.email }}</span>
-            </v-layout>
-        </v-card-text>
 
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="green darken-1"
-            flat="flat"
-            @click="onRemove(item.id)"
-          >
-            <v-icon color="red large">mdi-trash-can-outline</v-icon>
-          </v-btn>
-          <v-btn
-            v-if="!item.processed"
-            color="green darken-1"
-            flat="flat"
-            @click="doProcessed(item.id)"
-          >
-            Оброблено
-          </v-btn>
-          <v-btn
-            v-else
-            color="green darken-1"
-            flat="flat"
-            @click="doNotProcessed(item.id)"
-          >
-            Не оброблено
-          </v-btn>
-          <v-btn
-            flat="flat"
-            @click="dialog = false"
-          >
-            <v-icon color="grey">mdi-redo-variant</v-icon>
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-layout>
+            <v-layout align-center wrap ma-3>
+              <v-icon color="green darken-2">mdi-email</v-icon>
+              <span>{{ item.email }}</span>
+            </v-layout>
+          </v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="green darken-1" flat="flat" @click="onRemove(item.id)">
+              <v-icon color="red large">mdi-trash-can-outline</v-icon>
+            </v-btn>
+            <v-btn
+              v-if="!item.processed"
+              color="green darken-1"
+              flat="flat"
+              @click="doProcessed(item.id)"
+            >Оброблено</v-btn>
+            <v-btn
+              v-else
+              color="green darken-1"
+              flat="flat"
+              @click="doNotProcessed(item.id)"
+            >Не оброблено</v-btn>
+            <v-btn flat="flat" @click="dialog = false">
+              <v-icon color="grey">mdi-redo-variant</v-icon>
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-layout>
   </div>
 </template>
  <script>
@@ -101,7 +90,7 @@ export default {
   mixins: [showStatusToast],
 
   data: () => ({
-    item:{},
+    item: {},
     selected: [],
     dialog: false
   }),
@@ -122,8 +111,8 @@ export default {
 
   methods: {
     ...mapActions("order", [
-      "fetchOrders", 
-      "processed", 
+      "fetchOrders",
+      "processed",
       "unProcessed",
       "removeOrder"
     ]),
@@ -150,3 +139,13 @@ export default {
   }
 };
 </script>
+<style scope>
+
+.list-enter-active, .list-leave-active {
+  transition: all 0.5s;
+}
+.list-enter, .list-leave-to {
+  opacity: 0;
+  transform: translateX(230px);
+}
+</style>
