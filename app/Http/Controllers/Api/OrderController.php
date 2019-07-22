@@ -16,6 +16,9 @@ use App\Action\Order\RemoveOrderFromUserListAction;
 use App\Action\Order\ProcessOrderAction;
 use App\Action\Order\UnprocessOrderAction;
 use App\Action\Order\IsProcessedOrderAction;
+use App\Action\Order\GetProcessedOrderCollectionAction;
+use App\Action\Order\GetUnProcessedOrderCollectionAction;
+use App\Action\Order\GetRemovedOrderCollectionAction;
 
 use Log;
 
@@ -30,6 +33,9 @@ class OrderController extends ApiController
     protected $processOrderAction;
     protected $unprocessOrderAction;
     protected $isProcessedOrderAction;
+    protected $getProcessedOrderCollectionAction;
+    protected $getUnProcessedOrderCollectionAction;
+    protected $getRemovedOrderCollectionAction;
 
     public function __construct(
             AddOrderAction $addOrderAction, 
@@ -38,7 +44,11 @@ class OrderController extends ApiController
             RemoveOrderFromUserListAction $removeOrderFromUserListAction,
             ProcessOrderAction $processOrderAction,
             UnprocessOrderAction $unprocessOrderAction,
-            IsProcessedOrderAction $isProcessedOrderAction
+            IsProcessedOrderAction $isProcessedOrderAction,
+            GetProcessedOrderCollectionAction $getProcessedOrderCollectionAction,
+            GetUnProcessedOrderCollectionAction $getUnProcessedOrderCollectionAction,
+            GetRemovedOrderCollectionAction $getRemovedOrderCollectionAction
+
         )
     {
         $this->removeOrderFromUserListAction = $removeOrderFromUserListAction;
@@ -48,6 +58,9 @@ class OrderController extends ApiController
         $this->processOrderAction = $processOrderAction;
         $this->unprocessOrderAction = $unprocessOrderAction;
         $this->isProcessedOrderAction = $isProcessedOrderAction;
+        $this->getProcessedOrderCollectionAction = $getProcessedOrderCollectionAction;
+        $this->getUnProcessedOrderCollectionAction = $getUnProcessedOrderCollectionAction;
+        $this->getRemovedOrderCollectionAction = $getRemovedOrderCollectionAction;
     }
 
     public function addOrder(AddOrderHttpRequest $request):ApiResponse
@@ -101,5 +114,41 @@ class OrderController extends ApiController
     public function isProcessed($id)
     {
         return $this->isProcessedOrderAction->execute($id);
+    }
+
+    public function getRemovedOrders(CollectionHttpRequest $request): ApiResponse
+    {
+        $response = $this->getRemovedOrderCollectionAction->execute(
+            new GetCollectionRequest(
+                (int)$request->query('page'),
+                $request->query('sort'),
+                $request->query('direction')
+            )
+        );
+        return $this->createPaginatedResponse($response->getPaginator(), $this->presenter);
+    }
+
+    public function getProcessedOrders(CollectionHttpRequest $request): ApiResponse
+    {
+        $response = $this->getProcessedOrderCollectionAction->execute(
+            new GetCollectionRequest(
+                (int)$request->query('page'),
+                $request->query('sort'),
+                $request->query('direction')
+            )
+        );
+        return $this->createPaginatedResponse($response->getPaginator(), $this->presenter);
+    }
+
+    public function getUnProcessedOrders(CollectionHttpRequest $request): ApiResponse
+    {
+        $response = $this->getUnProcessedOrderCollectionAction->execute(
+            new GetCollectionRequest(
+                (int)$request->query('page'),
+                $request->query('sort'),
+                $request->query('direction')
+            )
+        );
+        return $this->createPaginatedResponse($response->getPaginator(), $this->presenter);
     }
 }

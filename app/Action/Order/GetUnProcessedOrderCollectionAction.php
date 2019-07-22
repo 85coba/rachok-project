@@ -8,7 +8,7 @@ use App\Action\GetCollectionRequest;
 use App\Repository\OrderRepository;
 use App\Action\PaginatedResponse;
 
-final class GetOrderCollectionAction 
+final class GetUnProcessedOrderCollectionAction 
 {
     private $repository;
 
@@ -19,9 +19,8 @@ final class GetOrderCollectionAction
 
     public function execute(GetCollectionRequest $request):PaginatedResponse
     {
-        
         return new PaginatedResponse(
-            $this->repository->getFiltredOrders(
+            $this->repository->getUnProcessedOrders(
                 $request->getPage() ?: OrderRepository::DEFAULT_PAGE,
                 OrderRepository::DEFAULT_PER_PAGE,
                 $request->getSort() ?: OrderRepository::DEFAULT_SORT,

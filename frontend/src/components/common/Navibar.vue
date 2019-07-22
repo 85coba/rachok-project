@@ -27,10 +27,9 @@
       class="grey lighten-4"
       app
       v-model="drawer"
-    
     >
       <v-list
-        dense
+        
         class="grey lighten-4"
       >
         <template v-for="(item, i) in items">
@@ -55,7 +54,7 @@
           <v-list-tile
             :key="i"
             v-else
-            @click=""
+            @click="onMenuClick(i)"
           >
             <v-list-tile-action>
               <v-icon>{{ item.icon }}</v-icon>
@@ -80,11 +79,12 @@
         },
 
         data: () => ({
+          drawer: true,
       items: [
         { icon: 'home', text: 'Home' },
         { divider: true },
         { heading: 'Filters' },
-        { icon: 'check', text: 'Show processed orders' },
+        { icon: 'check', text: 'Show processed orders',  },
         { icon: 'add', text: 'Show unprocessed orders' },
         { icon: 'delete', text: 'Show removed orders' },
         { divider: true },
@@ -102,12 +102,38 @@
 
         methods: {
             ...mapActions('auth', [ 'signOut' ]),
-            ...mapActions(['onDrawer']),
+            ...mapActions('order', 
+            [
+              'fetchProcessedOrders', 
+              'fetchUnProcessedOrders',
+              'fetchRemovedOrders',
+              'fetchOrders'
+            ]),
 
             async onSignOut() {
                 await this.signOut();
                 this.$router.push({ name: 'auth.signIn' });
             },
+
+            onMenuClick(i) {
+              switch (i) {
+                case 0:
+                  this.fetchOrders({ page: 1 });
+                  break;
+                case 3:
+                  this.fetchProcessedOrders({ page: 1 });
+                  break;
+                case 4:
+                  this.fetchUnProcessedOrders( { page: 1 } );
+                  break;
+                case 5:
+                  this.fetchRemovedOrders( { page: 1 } );
+                  break;
+                default:
+                  break;
+              }
+              
+            }
         }
 
 

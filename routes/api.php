@@ -24,6 +24,7 @@ Route::prefix('v1')->group(function () {
         Route::post('/reset/password', 'AuthController@callResetPassword');
         Route::post('/reset-password', 'AuthController@sendPasswordResetLink');
     });
+
     Route::post('/order/add','Api\OrderController@addOrder');
     Route::get('/equipments','Api\EquipmentController@index');
     Route::delete('/remove/{id}', 'Api\OrderController@removeOrderFromUserList');
@@ -36,6 +37,9 @@ Route::prefix('v1')->group(function () {
     ], function(){
         Route::group(['prefix' => 'order'], function(){
             Route::get('/all', 'OrderController@getOrderCollection');
+            Route::get('/removed', 'OrderController@getRemovedOrders');
+            Route::get('/processed', 'OrderController@getProcessedOrders');
+            Route::get('/unprocessed', 'OrderController@getUnProcessedOrders');
             
         });
 

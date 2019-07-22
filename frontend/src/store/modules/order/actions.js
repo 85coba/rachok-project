@@ -106,6 +106,51 @@ export default {
             commit(SET_LOADING, false, {root: true});
             return Promise.reject(error);
         }
-    }
+    },
+
+    async fetchProcessedOrders ( { commit }, { page } ) {
+        commit(SET_LOADING, true, {root: true});
+
+        try {
+            const orders = await api.get('/order/processed', { page });
+            commit(ORDERS_SET, orders);
+            commit(SET_LOADING, false, {root: true});
+            
+            return Promise.resolve(orders.map(orderMapper));
+        } catch (error) {
+            commit(SET_LOADING, false, {root: true});
+            return Promise.reject(error);
+        }
+    },
+
+    async fetchUnProcessedOrders ( { commit }, { page } ) {
+        commit(SET_LOADING, true, {root: true});
+
+        try {
+            const orders = await api.get('/order/unprocessed', { page });
+            commit(ORDERS_SET, orders);
+            commit(SET_LOADING, false, {root: true});
+            
+            return Promise.resolve(orders.map(orderMapper));
+        } catch (error) {
+            commit(SET_LOADING, false, {root: true});
+            return Promise.reject(error);
+        }
+    },
+
+    async fetchRemovedOrders ( { commit }, { page } ) {
+        commit(SET_LOADING, true, {root: true});
+
+        try {
+            const orders = await api.get('/order/removed', { page });
+            commit(ORDERS_SET, orders);
+            commit(SET_LOADING, false, {root: true});
+            
+            return Promise.resolve(orders.map(orderMapper));
+        } catch (error) {
+            commit(SET_LOADING, false, {root: true});
+            return Promise.reject(error);
+        }
+    },
 
 };

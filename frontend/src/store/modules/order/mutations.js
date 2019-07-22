@@ -12,7 +12,6 @@ export default {
 
     [ORDERS_SET]: (state, orders) => {
         state.orders = {
-            ...state.orders,
             ...orders.reduce(
                 (prev, order) => ({ ...prev, [order.id]: orderMapper(order) }), {}
             ),

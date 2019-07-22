@@ -52,8 +52,47 @@ final class OrderRepository implements Paginable
     ): LengthAwarePaginator {
         $model = Auth::user();
 
-        $blockingsIds = collect($model->removing(Order::class)->get()->toArray())->pluck($model->getKeyName())->all();
+        $removedIds = collect($model->removing(Order::class)->get()->toArray())->pluck($model->getKeyName())->all();
         
-        return Order::whereNotIn('id', $blockingsIds)->orderBy($sort, $direction)->paginate($perPage, ['*'], null, $page);
+        return Order::whereNotIn('id', $removedIds)->orderBy($sort, $direction)->paginate($perPage, ['*'], null, $page);
+    }
+
+    public function getRemovedOrders(
+        int $page = self::DEFAULT_PAGE,
+        int $perPage = self::DEFAULT_PER_PAGE,
+        string $sort = self::DEFAULT_SORT,
+        string $direction = self::DEFAULT_DIRECTION
+    ): LengthAwarePaginator {
+        $model = Auth::user();
+
+        $removedIds = collect($model->removing(Order::class)->get()->toArray())->pluck($model->getKeyName())->all();
+        
+        return Order::whereIn('id', $removedIds)->orderBy($sort, $direction)->paginate($perPage, ['*'], null, $page);
+    }
+
+    public function getProcessedOrders(
+        int $page = self::DEFAULT_PAGE,
+        int $perPage = self::DEFAULT_PER_PAGE,
+        string $sort = self::DEFAULT_SORT,
+        string $direction = self::DEFAULT_DIRECTION
+    ): LengthAwarePaginator {
+        $model = Auth::user();
+
+        $processedIds = collect($model->processing(Order::class)->get()->toArray())->pluck($model->getKeyName())->all();
+        
+        return Order::whereIn('id', $processedIds)->orderBy($sort, $direction)->paginate($perPage, ['*'], null, $page);
+    }
+
+    public function getUnProcessedOrders(
+        int $page = self::DEFAULT_PAGE,
+        int $perPage = self::DEFAULT_PER_PAGE,
+        string $sort = self::DEFAULT_SORT,
+        string $direction = self::DEFAULT_DIRECTION
+    ): LengthAwarePaginator {
+        $model = Auth::user();
+
+        $processedIds = collect($model->processing(Order::class)->get()->toArray())->pluck($model->getKeyName())->all();
+        
+        return Order::whereNotIn('id', $processedIds)->orderBy($sort, $direction)->paginate($perPage, ['*'], null, $page);
     }
 }
