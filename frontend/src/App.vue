@@ -7,7 +7,10 @@
         class="scroll-y"
         style="max-height: 550px"
       >
-      <router-view/>
+      <v-content>
+        <router-view/>  
+      </v-content>
+      
       </div>
     <Loading></Loading>
     </div>
