@@ -10,7 +10,10 @@ final class GetAllEquipmentAction
     protected $repository;
     protected $presenter;
 
-    public function __construct(EquipmentRepository $repository, EquipmentArrayPresenter $presenter)
+    public function __construct(
+        EquipmentRepository $repository, 
+        EquipmentArrayPresenter $presenter
+    )
     {
         $this->repository = $repository;
         $this->presenter = $presenter;

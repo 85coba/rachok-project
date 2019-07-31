@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Models\Order;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Log;
-
+use App\Http\Presenter\SettingsArrayPresenter;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 final class OrderRepository implements Paginable
 {
@@ -51,10 +51,20 @@ final class OrderRepository implements Paginable
         string $direction = self::DEFAULT_DIRECTION
     ): LengthAwarePaginator {
         $model = Auth::user();
+        $filterIDs = [];
+        $filters = $model->settings;
+        foreach ($filters as $filter) {
+            $IDs = collect(Order::select('id')
+                ->whereNotIn($filter->name, explode(",", $filter->value))->get()->toArray())->pluck('id')->all();
+            \Log::info($IDs);
+            $filterIDs = array_merge($filterIDs,$IDs);
+        }
 
         $removedIds = collect($model->removing(Order::class)->get()->toArray())->pluck($model->getKeyName())->all();
         
-        return Order::whereNotIn('id', $removedIds)->orderBy($sort, $direction)->paginate($perPage, ['*'], null, $page);
+        return Order::whereNotIn('id',$filterIDs)->whereNotIn('id', $removedIds)
+            ->orderBy($sort, $direction)
+            ->paginate($perPage, ['*'], null, $page);
     }
 
     public function getRemovedOrders(

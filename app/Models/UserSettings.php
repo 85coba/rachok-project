@@ -18,4 +18,14 @@ class UserSettings extends Model
     {
         return $this->belongsTo('App\Models\User');
     }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function getValue()
+    {
+        return $this->value;
+    }
 }

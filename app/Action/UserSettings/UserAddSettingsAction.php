@@ -5,7 +5,7 @@ namespace App\Action\UserSettings;
 use Illuminate\Http\Request;
 use App\Repository\SettingsRepository;
 
-final class UserSettingsAction 
+final class UserAddSettingsAction 
 {
     private $repository;
 

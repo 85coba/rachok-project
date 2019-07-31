@@ -2,18 +2,18 @@
 
 namespace App\Repository;
 
-use App\Models\UserSettings;
 use Auth;
+use App\Models\User;
+use App\Models\UserSettings;
 
 final class SettingsRepository 
 {
 
     public function getSettings()
     {
-        $user = Auth::user();
-        $settings = $user->settings();
+        $user = User::find(1);
 
-        return $settings;
+        return $user->settings;
     }
 
     public function addSettings($settings)
@@ -30,6 +30,11 @@ final class SettingsRepository
     public function updateSettings($settings)
     {
         $user = Auth::user();
+
+        if (!$settings['value']) {
+            return $user->settings()->where('name', $settings['name'])->delete();;
+        }
+        
         if (!$user->settings()->exists()) {
             return $this->addSettings($settings);
         }
