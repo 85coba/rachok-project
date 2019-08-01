@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use Auth;
-use App\Models\User;
 use App\Models\UserSettings;
 
 final class SettingsRepository 
@@ -11,8 +10,7 @@ final class SettingsRepository
 
     public function getSettings()
     {
-        $user = User::find(1);
-
+        $user = Auth::user();
         return $user->settings;
     }
 
@@ -48,6 +46,4 @@ final class SettingsRepository
             }
         }
     }
-
-
 }

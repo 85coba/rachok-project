@@ -55,9 +55,9 @@ final class OrderRepository implements Paginable
         $filters = $model->settings;
         foreach ($filters as $filter) {
             $IDs = collect(Order::select('id')
-                ->whereNotIn($filter->name, explode(",", $filter->value))->get()->toArray())->pluck('id')->all();
-            \Log::info($IDs);
-            $filterIDs = array_merge($filterIDs,$IDs);
+                ->whereNotIn($filter->name, explode(",", $filter->value))
+                ->get()->toArray())->pluck('id')->all();
+            $filterIDs = (count($filterIDs) === 0) ? $IDs : array_uintersect($filterIDs, $IDs, "strcasecmp");
         }
 
         $removedIds = collect($model->removing(Order::class)->get()->toArray())->pluck($model->getKeyName())->all();
