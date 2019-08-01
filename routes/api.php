@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -24,7 +25,8 @@ Route::prefix('v1')->group(function () {
         Route::post('/reset/password', 'AuthController@callResetPassword');
         Route::post('/reset-password', 'AuthController@sendPasswordResetLink');
     });
-
+    Route::get('/user/settings', 'Api\UserSettingsController@getSettings');
+    Route::post('/user/settings', 'Api\UserSettingsController@addSettings');
     Route::post('/order/add','Api\OrderController@addOrder');
     Route::get('/equipments','Api\EquipmentController@index');
     Route::delete('/remove/{id}', 'Api\OrderController@removeOrderFromUserList');

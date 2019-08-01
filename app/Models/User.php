@@ -11,6 +11,7 @@ use App\Contracts\Remover;
 use App\Contracts\Processor;
 use App\Traits\CanRemove;
 use App\Traits\CanProcess;
+use App\Models\UserSettings;
 
 class User extends Authenticatable implements JWTSubject, Remover, Processor
 {
@@ -123,5 +124,10 @@ class User extends Authenticatable implements JWTSubject, Remover, Processor
     public function getEmail(): string
     {
         return $this->email;
+    }
+
+    public function settings()
+    {
+        return $this->hasMany(UserSettings::class);
     }
 }
