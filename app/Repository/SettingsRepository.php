@@ -27,8 +27,7 @@ final class SettingsRepository
 
     public function updateSettings($settings)
     {
-        $user = Auth::user();
-
+        $user = Auth::user();   
         if (!$settings['value']) {
             return $user->settings()->where('name', $settings['name'])->delete();;
         }
