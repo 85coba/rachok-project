@@ -20,8 +20,6 @@ use App\Action\Order\GetProcessedOrderCollectionAction;
 use App\Action\Order\GetUnProcessedOrderCollectionAction;
 use App\Action\Order\GetRemovedOrderCollectionAction;
 
-use Log;
-
 class OrderController extends ApiController
 {
     protected $presenter;
