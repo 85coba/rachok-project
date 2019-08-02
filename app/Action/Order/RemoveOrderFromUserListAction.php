@@ -11,8 +11,6 @@ final class RemoveOrderFromUserListAction
 {
     public function execute($id)
     {
-
-        Log::info($id);
         $user = Auth::user();
         $order = Order::find($id);
         return $user->remove($order);
