@@ -78,7 +78,7 @@ class OrderController extends ApiController
             )
         );
 
-        return $this->created(["created"]);
+        return $this->created([$response]);
     }
 
     public function getOrderCollection(CollectionHttpRequest $request): ApiResponse 
