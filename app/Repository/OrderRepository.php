@@ -57,7 +57,7 @@ final class OrderRepository implements Paginable
             $IDs = collect(Order::select('id')
                 ->whereNotIn($filter->name, explode(",", $filter->value))
                 ->get()->toArray())->pluck('id')->all();
-            $filterIDs = (count($filterIDs) === 0) ? $IDs : array_uintersect($filterIDs, $IDs, "strcasecmp");
+            $filterIDs = array_unique(array_merge($filterIDs, $IDs));
         }
 
         $removedIds = collect($model->removing(Order::class)->get()->toArray())->pluck($model->getKeyName())->all();
