@@ -9,7 +9,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 interface Paginable
 {
     public const DEFAULT_PAGE = 1;
-    public const DEFAULT_PER_PAGE = 15;
+    public const DEFAULT_PER_PAGE = 10;
     public const DEFAULT_SORT = 'created_at';
     public const DEFAULT_DIRECTION = 'desc';
 
