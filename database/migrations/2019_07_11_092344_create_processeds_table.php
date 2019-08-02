@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSomesTable extends Migration
+class CreateProcessedsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,14 @@ class CreateSomesTable extends Migration
      */
     public function up()
     {
-        Schema::create('somes', function (Blueprint $table) {
+        Schema::create('processeds', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->timestamps();
-            $table->String ('Name');
+            
+            $table->bigInteger('processed_id');
+            $table->string('processed_type');
+
+            $table->bigInteger('processor_id')->nullable();
+            $table->string('processor_type')->nllable();
         });
     }
 
@@ -27,6 +31,6 @@ class CreateSomesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('somes');
+        Schema::dropIfExists('processeds');
     }
 }
