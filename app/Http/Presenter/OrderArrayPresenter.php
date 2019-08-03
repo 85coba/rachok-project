@@ -21,7 +21,7 @@ final class OrderArrayPresenter implements CollectionAsArrayPresenter
             'email' => $order->getEmail(),
             'phoneNumber' => $order->getPhoneNumber(),
             'date' => $order->getCreatedAt()->toDateTimeString(),
-            'processed' => Auth::user()->isProcessed($order)
+            'processed' => Auth::user() ? Auth::user()->isProcessed($order) : false
         ];
     }
 
