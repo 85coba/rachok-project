@@ -30,7 +30,7 @@ class OrderAdd implements ShouldBroadcast
 
     public function broadcastOn()
     {
-        return new PrivateChannel('order-channel');
+        return new PrivateChannel('orders');
     }
 
 

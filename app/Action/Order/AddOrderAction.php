@@ -31,7 +31,7 @@ final class AddOrderAction
 
         $order = $this->orderRepository->save($order);
         
-        broadcast(new OrderAdd($order))->toOthers();
+        broadcast(new OrderAdd($order));
 
         return new AddOrderResponse($order);
     }
