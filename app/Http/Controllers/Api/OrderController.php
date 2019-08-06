@@ -3,22 +3,22 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\ApiController;
 use App\Http\Response\ApiResponse;
-use App\Http\Request\Api\Order\AddOrderHttpRequest;
-use App\Action\Order\AddOrderRequest;
-use App\Action\Order\AddOrderAction;
-use App\Http\Presenter\OrderArrayPresenter;
 use App\Action\GetCollectionRequest;
-use App\Http\Request\Api\CollectionHttpRequest;
-use App\Action\Order\GetOrderCollectionAction;
-use App\Action\Order\RemoveOrderFromUserListAction;
+use App\Action\Order\AddOrderAction;
+use App\Action\Order\AddOrderRequest;
+use App\Http\Controllers\ApiController;
 use App\Action\Order\ProcessOrderAction;
 use App\Action\Order\UnprocessOrderAction;
+use App\Http\Presenter\OrderArrayPresenter;
 use App\Action\Order\IsProcessedOrderAction;
+use App\Action\Order\GetOrderCollectionAction;
+use App\Http\Request\Api\CollectionHttpRequest;
+use App\Action\Order\RemoveOrderFromUserListAction;
+use App\Http\Request\Api\Order\AddOrderHttpRequest;
+use App\Action\Order\GetRemovedOrderCollectionAction;
 use App\Action\Order\GetProcessedOrderCollectionAction;
 use App\Action\Order\GetUnProcessedOrderCollectionAction;
-use App\Action\Order\GetRemovedOrderCollectionAction;
 
 class OrderController extends ApiController
 {
@@ -83,35 +83,12 @@ class OrderController extends ApiController
     {
         $response = $this->getOrderColectionAtion->execute(
             new GetCollectionRequest(
-                (int)$request->query('page'),
-                $request->query('sort'),
-                $request->query('direction')
+                (int)$request->get('page'),
+                $request->get('sort'),
+                $request->get('direction')
             )
         );
         return $this->createPaginatedResponse($response->getPaginator(), $this->presenter);
-    }
-
-    public function removeOrderFromUserList($id) 
-    {   
-        $this->removeOrderFromUserListAction->execute($id);
-        return $this->createDeletedResponse();
-    }
-
-    public function processOrder(Request $request)
-    {
-        $this->processOrderAction->execute($request->get('id'));
-        return $this->createSuccessResponse(['order was processed']);
-    }
-
-    public function unprocessOrder(Request $request)
-    {
-        $this->unprocessOrderAction->execute($request->get('id'));
-        return $this->createSuccessResponse(['order was UNprocessed']);
-    }
-
-    public function isProcessed($id)
-    {
-        return $this->isProcessedOrderAction->execute($id);
     }
 
     public function getRemovedOrders(CollectionHttpRequest $request): ApiResponse
@@ -149,4 +126,28 @@ class OrderController extends ApiController
         );
         return $this->createPaginatedResponse($response->getPaginator(), $this->presenter);
     }
+
+    public function removeOrderFromUserList($id) 
+    {   
+        $this->removeOrderFromUserListAction->execute($id);
+        return $this->createDeletedResponse();
+    }
+
+    public function processOrder(Request $request)
+    {
+        $this->processOrderAction->execute($request->get('id'));
+        return $this->createSuccessResponse(['order was processed']);
+    }
+
+    public function unprocessOrder(Request $request)
+    {
+        $this->unprocessOrderAction->execute($request->get('id'));
+        return $this->createSuccessResponse(['order was UNprocessed']);
+    }
+
+    public function isProcessed($id)
+    {
+        return $this->isProcessedOrderAction->execute($id);
+    }
+
 }
