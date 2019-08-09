@@ -5,7 +5,7 @@ namespace App\Action\UserSettings;
 use Illuminate\Http\Request;
 use App\Repository\SettingsRepository;
 
-final class UserAddSettingsAction 
+final class UserAddSettingsAction
 {
     private $repository;
 
@@ -15,7 +15,6 @@ final class UserAddSettingsAction
     }
     public function execute(Request $settings)
     {
-        
         foreach ($settings['settings'] as $name => $value) {
             $this->repository->updateSettings(['name' => $name, 'value' => $value]);
         }
