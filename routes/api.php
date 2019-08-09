@@ -27,13 +27,13 @@ Route::prefix('v1')->group(function () {
     });
     Route::get('/user/settings', 'Api\UserSettingsController@getSettings')->middleware('auth:api');
     Route::post('/user/settings', 'Api\UserSettingsController@addSettings')->middleware('auth:api');
-    Route::post('/order/add','Api\OrderController@addOrder');
-    Route::get('/equipments','Api\EquipmentController@index');
+    Route::post('/order/add', 'Api\OrderController@addOrder');
+    Route::get('/equipments', 'Api\EquipmentController@index');
     Route::group([
         'middleware' => 'auth:api',
         'namespace' => 'Api\\'
-    ], function(){
-        Route::group(['prefix' => 'order'], function(){
+    ], function () {
+        Route::group(['prefix' => 'order'], function () {
             Route::get('/all', 'OrderController@getOrderCollection');
             Route::get('/removed', 'OrderController@getRemovedOrders');
             Route::get('/processed', 'OrderController@getProcessedOrders');
@@ -41,9 +41,6 @@ Route::prefix('v1')->group(function () {
             Route::delete('/remove/{id}', 'OrderController@removeOrderFromUserList');
             Route::post('/process', 'OrderController@processOrder');
             Route::post('/unprocess', 'OrderController@unprocessOrder');
-            
         });
-
     });
-    
 });
