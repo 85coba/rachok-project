@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
+use App\Action\Auth\LoginAction;
+use App\Action\Auth\LoginRequest;
+use App\Action\Auth\LogoutAction;
 use App\Http\Response\ApiResponse;
-use App\Http\Presenter\AuthenticationResponseArrayPresenter;
-use App\Http\Controllers\ApiController;
-use App\Http\Request\Api\Auth\RegisterHttpRequest;
 use App\Action\Auth\RegisterAction;
 use App\Action\Auth\RegisterRequest;
+use App\Http\Controllers\ApiController;
+use App\Action\Auth\UpdateProfileAction;
+use App\Action\Auth\UpdateProfileRequest;
+use App\Http\Presenter\UserArrayPresenter;
+use App\Action\Auth\GetAuthenticatedUserAction;
 use App\Http\Request\Api\Auth\LoginHttpRequest;
-use App\Action\Auth\LoginRequest;
-use App\Action\Auth\LoginAction;
-use App\Action\Auth\LogoutAction;
+use App\Http\Request\Api\Auth\RegisterHttpRequest;
+use App\Http\Request\Api\Auth\UpdateProfileHttpRequest;
+use App\Http\Presenter\AuthenticationResponseArrayPresenter;
 
 class AuthController extends ApiController
 {
