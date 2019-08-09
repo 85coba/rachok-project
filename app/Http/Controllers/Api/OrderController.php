@@ -36,19 +36,18 @@ class OrderController extends ApiController
     protected $getRemovedOrderCollectionAction;
 
     public function __construct(
-            AddOrderAction $addOrderAction, 
-            OrderArrayPresenter $presenter, 
-            GetOrderCollectionAction $getOrderColectionAtion,
-            RemoveOrderFromUserListAction $removeOrderFromUserListAction,
-            ProcessOrderAction $processOrderAction,
-            UnprocessOrderAction $unprocessOrderAction,
-            IsProcessedOrderAction $isProcessedOrderAction,
-            GetProcessedOrderCollectionAction $getProcessedOrderCollectionAction,
-            GetUnProcessedOrderCollectionAction $getUnProcessedOrderCollectionAction,
-            GetRemovedOrderCollectionAction $getRemovedOrderCollectionAction
+        AddOrderAction $addOrderAction,
+        OrderArrayPresenter $presenter,
+        GetOrderCollectionAction $getOrderColectionAtion,
+        RemoveOrderFromUserListAction $removeOrderFromUserListAction,
+        ProcessOrderAction $processOrderAction,
+        UnprocessOrderAction $unprocessOrderAction,
+        IsProcessedOrderAction $isProcessedOrderAction,
+        GetProcessedOrderCollectionAction $getProcessedOrderCollectionAction,
+        GetUnProcessedOrderCollectionAction $getUnProcessedOrderCollectionAction,
+        GetRemovedOrderCollectionAction $getRemovedOrderCollectionAction
 
-        )
-    {
+    ) {
         $this->removeOrderFromUserListAction = $removeOrderFromUserListAction;
         $this->addOrderAction = $addOrderAction;
         $this->presenter = $presenter;
@@ -61,12 +60,12 @@ class OrderController extends ApiController
         $this->getRemovedOrderCollectionAction = $getRemovedOrderCollectionAction;
     }
 
-    public function addOrder(AddOrderHttpRequest $request):ApiResponse
+    public function addOrder(AddOrderHttpRequest $request): ApiResponse
     {
         $response = $this->addOrderAction->execute(
             new AddOrderRequest(
                 $request->get('title'),
-                (string)$request->get('info'),
+                (string) $request->get('info'),
                 $request->get('features'),
                 $request->get('region'),
                 $request->get('city'),
@@ -79,11 +78,11 @@ class OrderController extends ApiController
         return $this->created([$response]);
     }
 
-    public function getOrderCollection(CollectionHttpRequest $request): ApiResponse 
+    public function getOrderCollection(CollectionHttpRequest $request): ApiResponse
     {
         $response = $this->getOrderColectionAtion->execute(
             new GetCollectionRequest(
-                (int)$request->get('page'),
+                (int) $request->get('page'),
                 $request->get('sort'),
                 $request->get('direction')
             )
@@ -95,7 +94,7 @@ class OrderController extends ApiController
     {
         $response = $this->getRemovedOrderCollectionAction->execute(
             new GetCollectionRequest(
-                (int)$request->query('page'),
+                (int) $request->query('page'),
                 $request->query('sort'),
                 $request->query('direction')
             )
@@ -107,7 +106,7 @@ class OrderController extends ApiController
     {
         $response = $this->getProcessedOrderCollectionAction->execute(
             new GetCollectionRequest(
-                (int)$request->query('page'),
+                (int) $request->query('page'),
                 $request->query('sort'),
                 $request->query('direction')
             )
@@ -119,7 +118,7 @@ class OrderController extends ApiController
     {
         $response = $this->getUnProcessedOrderCollectionAction->execute(
             new GetCollectionRequest(
-                (int)$request->query('page'),
+                (int) $request->query('page'),
                 $request->query('sort'),
                 $request->query('direction')
             )
@@ -127,8 +126,8 @@ class OrderController extends ApiController
         return $this->createPaginatedResponse($response->getPaginator(), $this->presenter);
     }
 
-    public function removeOrderFromUserList($id) 
-    {   
+    public function removeOrderFromUserList($id)
+    {
         $this->removeOrderFromUserListAction->execute($id);
         return $this->createDeletedResponse();
     }
@@ -149,5 +148,4 @@ class OrderController extends ApiController
     {
         return $this->isProcessedOrderAction->execute($id);
     }
-
 }

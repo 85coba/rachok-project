@@ -25,26 +25,22 @@ Route::prefix('v1')->group(function () {
         Route::post('/reset/password', 'AuthController@callResetPassword');
         Route::post('/reset-password', 'AuthController@sendPasswordResetLink');
     });
-    Route::get('/user/settings', 'Api\UserSettingsController@getSettings');
-    Route::post('/user/settings', 'Api\UserSettingsController@addSettings');
-    Route::post('/order/add','Api\OrderController@addOrder');
-    Route::get('/equipments','Api\EquipmentController@index');
-    Route::delete('/remove/{id}', 'Api\OrderController@removeOrderFromUserList');
-    Route::post('/process', 'Api\OrderController@processOrder');
-    Route::post('/unprocess', 'Api\OrderController@unprocessOrder');
-    Route::get('/isprocessed/{id}', 'Api\OrderController@isProcessed');
+    Route::get('/user/settings', 'Api\UserSettingsController@getSettings')->middleware('auth:api');
+    Route::post('/user/settings', 'Api\UserSettingsController@addSettings')->middleware('auth:api');
+    Route::post('/order/add', 'Api\OrderController@addOrder');
+    Route::get('/equipments', 'Api\EquipmentController@index');
     Route::group([
         'middleware' => 'auth:api',
         'namespace' => 'Api\\'
-    ], function(){
-        Route::group(['prefix' => 'order'], function(){
+    ], function () {
+        Route::group(['prefix' => 'order'], function () {
             Route::get('/all', 'OrderController@getOrderCollection');
             Route::get('/removed', 'OrderController@getRemovedOrders');
             Route::get('/processed', 'OrderController@getProcessedOrders');
             Route::get('/unprocessed', 'OrderController@getUnProcessedOrders');
-            
+            Route::delete('/remove/{id}', 'OrderController@removeOrderFromUserList');
+            Route::post('/process', 'OrderController@processOrder');
+            Route::post('/unprocess', 'OrderController@unprocessOrder');
         });
-
     });
-    
 });

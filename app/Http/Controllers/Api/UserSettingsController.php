@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\UserSettings;
 use Illuminate\Http\Request;
 use App\Http\Response\ApiResponse;
 use App\Http\Controllers\ApiController;
@@ -15,14 +14,13 @@ class UserSettingsController extends ApiController
     private $userGetSettingsAction;
 
     public function __construct(
-            UserAddSettingsAction $userAddSettingsAction,
-            UserGetSettingsAction $userGetSettingsAction
-        )
-    {
+        UserAddSettingsAction $userAddSettingsAction,
+        UserGetSettingsAction $userGetSettingsAction
+    ) {
         $this->userAddSettingsAction = $userAddSettingsAction;
         $this->userGetSettingsAction = $userGetSettingsAction;
     }
- 
+
     public function addSettings(Request $request)
     {
         return $this->userAddSettingsAction->execute($request);
@@ -34,5 +32,4 @@ class UserSettingsController extends ApiController
             $this->userGetSettingsAction->execute()
         );
     }
-
 }
