@@ -24,7 +24,7 @@ final class GetOrderCollectionAction
     {
         $user = Auth::user();
         $filterIDs = [];
-        $filters = $user->settings;
+        $filters = $user->filters;
         foreach ($filters as $filter) {
             $IDs = collect(Order::select('id')
                 ->whereNotIn($filter->name, explode(",", $filter->value))
