@@ -11,7 +11,7 @@ final class SettingsRepository
     public function getSettings()
     {
         $user = Auth::user();
-        return $user->settings;
+        return $user->filters;
     }
 
     public function addSettings($settings)
@@ -29,14 +29,14 @@ final class SettingsRepository
     {
         $user = Auth::user();   
         if (!$settings['value']) {
-            return $user->settings()->where('name', $settings['name'])->delete();;
+            return $user->filters()->where('name', $settings['name'])->delete();;
         }
         
-        if (!$user->settings()->exists()) {
+        if (!$user->filters()->exists()) {
             return $this->addSettings($settings);
         }
 
-        foreach ($user->settings as $setting) {
+        foreach ($user->filters as $setting) {
             if ($setting['name'] === $settings['name']) {
                 $setting['value'] = implode(",", $settings['value']);
                 $setting->save();

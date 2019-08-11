@@ -126,7 +126,7 @@ class User extends Authenticatable implements JWTSubject, Remover, Processor
         return $this->email;
     }
 
-    public function settings()
+    public function filters()
     {
         return $this->hasMany(UserSettings::class);
     }
