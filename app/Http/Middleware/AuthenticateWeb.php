@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 
-class Authenticate extends Middleware
+class AuthenticateWeb extends Middleware
 {
     /**
      * Get the path the user should be redirected to when they are not authenticated.
@@ -14,7 +14,9 @@ class Authenticate extends Middleware
      */
     protected function redirectTo($request)
     {
+        \Log::info(\Auth::guard('web')->user()->firstName);
         if (! $request->expectsJson()) {
+            \Log::info('Suka!!!!!');
             return route('login');
         }
     }

@@ -2,16 +2,17 @@
 
 namespace App\Models;
 
+use App\Models\Role;
+use App\Traits\CanRemove;
+use App\Contracts\Remover;
+use App\Traits\CanProcess;
+use App\Contracts\Processor;
+use App\Models\UserSettings;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Tymon\JWTAuth\Contracts\JWTSubject;
 use Prophecy\Exception\InvalidArgumentException;
-use App\Contracts\Remover;
-use App\Contracts\Processor;
-use App\Traits\CanRemove;
-use App\Traits\CanProcess;
-use App\Models\UserSettings;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements JWTSubject, Remover, Processor
 {
@@ -130,4 +131,11 @@ class User extends Authenticatable implements JWTSubject, Remover, Processor
     {
         return $this->hasMany(UserSettings::class);
     }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'user_role');
+    }
+
+
 }
