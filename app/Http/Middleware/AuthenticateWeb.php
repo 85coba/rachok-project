@@ -14,9 +14,7 @@ class AuthenticateWeb extends Middleware
      */
     protected function redirectTo($request)
     {
-        \Log::info(\Auth::guard('web')->user()->firstName);
         if (! $request->expectsJson()) {
-            \Log::info('Suka!!!!!');
             return route('login');
         }
     }
