@@ -28,14 +28,7 @@ final class IndexAction
         $this->vendorsCount = $this->userRepo->getVendorsCount();
         $this->ordersCount = $this->orderRepo->getOrdersCount();
         $this->topEquipment = $this->orderRepo->getTopEquipment();
-        
-        
-        $dataSet = $this->fetchOrdersGroupByMonth();
-        $chart = new OrdersChart;
-        $chart->labels($dataSet['month']);
-        $chart->dataset('Orders', 'line', $dataSet['dataSet'])->options([
-            'backgroundColor' => 'rgba(0,255,0,0.3)', 
-        ]);;
+        $chart = $this->createChart($this->fetchOrdersGroupByMonth());
         
         $response = [
             'chart' => $chart,
@@ -57,7 +50,19 @@ final class IndexAction
             array_push($month, $item->month);
             array_push($count, $item->data);
         });
+        
         return ['month' => $month, 'dataSet' => $count];
+    }
+
+    private function createChart(array $dataSet)
+    {
+        $chart = new OrdersChart;
+        $chart->labels($dataSet['month']);
+        $chart->dataset('Orders', 'line', $dataSet['dataSet'])->options([
+            'backgroundColor' => 'rgba(0,255,0,0.3)', 
+        ]);
+
+        return $chart;
     }
 
 }
