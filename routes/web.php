@@ -20,8 +20,9 @@ Route::post('login', 'Auth\LoginController@login');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
 //Admin
-Route::group(['middleware'=>['web','authweb:web']], function () {
-    Route::get('admin', 'Admin\AdminController@index');
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin\\', 'middleware'=>['web','authweb:web']], function () {
+    Route::get('/', 'AdminController@index');
+    Route::get('/users', 'AdminController@users');
 });
 
 
