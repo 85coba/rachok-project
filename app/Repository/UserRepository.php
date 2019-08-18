@@ -33,4 +33,9 @@ final class UserRepository implements Paginable
 
         return $user;
     }
+
+    public function getVendorsCount()
+    {
+        return User::count();
+    }
 }
