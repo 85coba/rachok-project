@@ -27,7 +27,7 @@ class User extends Authenticatable implements JWTSubject, Remover, Processor
         'first_name',
         'last_name',
         'nickname',
-        'email', 
+        'email',
         'password',
     ];
 
@@ -37,7 +37,7 @@ class User extends Authenticatable implements JWTSubject, Remover, Processor
      * @var array
      */
     protected $hidden = [
-        'password', 
+        'password',
         'remember_token',
         'email_verified_at',
         'created_at',
@@ -53,7 +53,7 @@ class User extends Authenticatable implements JWTSubject, Remover, Processor
         'email_verified_at' => 'datetime',
     ];
 
-    public function getJWTIdentifier() 
+    public function getJWTIdentifier()
     {
         return $this->getKey();
     }
@@ -137,5 +137,14 @@ class User extends Authenticatable implements JWTSubject, Remover, Processor
         return $this->belongsToMany(Role::class, 'user_role');
     }
 
-
+    public function canDo($permissions)
+    {
+        foreach ($this->roles as $role) {
+            foreach ($role->permission as $permission) {
+                if (str_is($permissions, $permission->name)) {
+                    return true;
+                }
+            }
+        }
+    }
 }

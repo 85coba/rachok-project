@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use Carbon\Carbon;
 use App\Models\Order;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -63,11 +64,34 @@ final class OrderRepository implements Paginable
         int $perPage = self::DEFAULT_PER_PAGE,
         string $sort = self::DEFAULT_SORT,
         string $direction = self::DEFAULT_DIRECTION
-    ): LengthAwarePaginator {
-        
+    ): LengthAwarePaginator 
+    { 
         return Order::whereIn('id', $IDs)
             ->orderBy($sort, $direction)
             ->paginate($perPage, ['*'], null, $page);
+    }
+
+    public function getOrdersCount()
+    {
+        return Order::count();
+    }
+
+    public function getTopEquipment()
+    {
+        return DB::table('orders')
+            ->select('title', DB::raw('count(*) as total'))
+            ->groupBy('title')
+            ->orderByDesc('total')
+            ->first();
+    }
+
+    public function getOrdersCountByDate()
+    {
+        return Order::selectRaw('year(created_at) year, monthname(created_at) month, count(*) data')
+            ->groupBy('year', 'month')
+            ->orderByDesc('month')
+            ->get();
+            
     }
 
 }
