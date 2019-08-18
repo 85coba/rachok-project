@@ -184,7 +184,7 @@
       <!-- Nav Item - User Information -->
       <li class="nav-item dropdown no-arrow">
         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <span class="mr-2 d-none d-lg-inline text-gray-600">{{ $user->first_name }}</span>
+          <span class="mr-2 d-none d-lg-inline text-gray-600">{{ $admin->first_name }}</span>
           <i class="far fa-2x fa-user-circle mr-2 text-gray-600 big"></i>
         </a>
         <!-- Dropdown - User Information -->
@@ -212,5 +212,3 @@
     </ul>
 
   </nav>
-  <!-- End of Topbar -->
-    <!-- End of Topbar -->
