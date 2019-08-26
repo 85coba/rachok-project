@@ -56,7 +56,7 @@
                   <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Top Equipment</div>
                   <div class="row no-gutters align-items-center">
                     <div class="col-auto">
-                      <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ $topEquipment->title }}</div>
+                      <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ $topEquipment->title ?? '--' }}</div>
                     </div>
                     <div class="col">
                     <div class="h5 mb-0 mr-3 text-gray-800">({{ $topEquipment->total }} requests) </div>
