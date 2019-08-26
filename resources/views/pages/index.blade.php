@@ -59,7 +59,7 @@
                       <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ $topEquipment->title ?? '--' }}</div>
                     </div>
                     <div class="col">
-                    <div class="h5 mb-0 mr-3 text-gray-800">({{ $topEquipment->total }} requests) </div>
+                    <div class="h5 mb-0 mr-3 text-gray-800">({{ $topEquipment->total ?? '--' }} requests) </div>
                     </div>
                   </div>
                 </div>
