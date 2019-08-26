@@ -23,6 +23,7 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin\\', 'middleware'=>['web','authweb:web']], function () {
     Route::get('/', 'AdminController@index');
     Route::get('/users', 'AdminController@users');
+    Route::get('/permissions', 'AdminController@permissions');
 });
 
 
