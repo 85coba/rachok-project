@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         DB::table('users')->insert([
+            'id'            =>  1,
             'first_name'    =>  'Denys',
             'last_name'     =>  'Panchuk',
             'email'         =>  '85coba@gmail.com',
@@ -20,15 +21,15 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('roles')->insert([
-            ['name' =>  'admin'],
-            ['name' =>  'vendor'],
-            ['name' =>  'bloked'] 
+            ['id' => 1, 'name' =>  'admin'],
+            ['id' => 2, 'name' =>  'vendor'],
+            ['id' => 3, 'name' =>  'bloked'] 
         ]);
 
         DB::table('permissions')->insert([
-            ['name' =>  'browse_admin_panel'],
-            ['name' =>  'browse_cabinet'],
-            ['name' =>  'receive_new_orders']
+            ['id' => 1, 'name' =>  'browse_admin_panel'],
+            ['id' => 2, 'name' =>  'browse_cabinet'],
+            ['id' => 3, 'name' =>  'receive_new_orders']
         ]);
 
         DB::table('permission_role')->insert([
