@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Action\Admin\IndexAction;
+use App\Action\Admin\PermissionsAction;
 use App\Action\Admin\UsersAction;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -32,6 +33,14 @@ class AdminController extends Controller
     public function users()
     {
         $data = $this->usersAction->execute();
+
         return view('pages.users')->with($data);
+    }
+
+    public function permissions(PermissionsAction $action)
+    {
+        $data = $action->execute();
+
+        return view('pages.permissions')->with($data);
     }
 }
