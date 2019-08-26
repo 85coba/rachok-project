@@ -37,7 +37,7 @@
 
 <!-- Nav Item - Utilities Collapse Menu -->
 <li class="nav-item">
-  <a class="nav-link" href="#">
+  <a class="nav-link" href="{{ url('/admin/permissions') }}">
     <i class="fas fa-fw fa-wrench"></i>
     <span>Permission</span>
   </a>
