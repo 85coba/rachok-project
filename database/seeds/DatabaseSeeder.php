@@ -19,26 +19,26 @@ class DatabaseSeeder extends Seeder
             'nickname'      =>  'uapanchude'
         ]);
 
-        DB::table('roles')->insert(
+        DB::table('roles')->insert([
             ['name' =>  'admin'],
             ['name' =>  'vendor'],
-            ['name' =>  'bloked']    
-        );
+            ['name' =>  'bloked'] 
+        ]);
 
-        DB::table('permissions')->insert(
+        DB::table('permissions')->insert([
             ['name' =>  'browse_admin_panel'],
             ['name' =>  'browse_cabinet'],
             ['name' =>  'receive_new_orders']
-        );
+        ]);
 
-        DB::table('permission_role')->insert(
+        DB::table('permission_role')->insert([
             ['role_id'  => 1, 'permission_id' => 1],
             ['role_id'  => 1, 'permission_id' => 2],
             ['role_id'  => 1, 'permission_id' => 3]
-        );
+        ]);
 
-        DB::table('user_role')->insert(
+        DB::table('user_role')->insert([
             ['user_id' => 1, 'role_id' => 1]
-        );
+        ]);
     }
 }
