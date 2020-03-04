@@ -13,14 +13,18 @@ class Equipment extends Model
         'options'
     ];
 
+    protected $casts = [
+        'options'   =>  'array',
+    ];
+
     public $timestamps = false;
 
-    public function getId() 
+    public function getId()
     {
         return $this->id;
     }
 
-    public function getName() 
+    public function getName()
     {
         return $this->name;
     }
