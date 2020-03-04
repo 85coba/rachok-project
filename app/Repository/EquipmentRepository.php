@@ -6,9 +6,9 @@ use App\Models\Equipment;
 
 final class EquipmentRepository {
 
-    public function create (array $eqiupment) 
+    public function create (array $eqiupment)
     {
-        return Equipment::crreate($eqiupment);
+        return Equipment::create($eqiupment);
     }
 
     public function getAll ()

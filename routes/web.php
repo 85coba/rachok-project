@@ -20,10 +20,13 @@ Route::post('login', 'Auth\LoginController@login');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
 //Admin
-Route::group(['prefix' => 'admin', 'namespace' => 'Admin\\', 'middleware'=>['web','authweb:web']], function () {
-    Route::get('/', 'AdminController@index');
-    Route::get('/users', 'AdminController@users');
-    Route::get('/permissions', 'AdminController@permissions');
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin\\', 'middleware'=>['web','authweb:web']], function () {
+    Route::get('/', 'AdminController@index')->name('index');
+    Route::get('/users', 'AdminController@users')->name('users');
+    Route::get('/permissions', 'AdminController@permissions')->name('permissions');
+    Route::get('/equipments', 'EquipmentController@index')->name('equipment.index');
+    Route::get('/equipments/create', 'EquipmentController@create')->name('equipment.create');
+    Route::post('/equipments/store', 'EquipmentController@store')->name('equipment.store');
 });
 
 
