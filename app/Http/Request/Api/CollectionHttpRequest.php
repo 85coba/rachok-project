@@ -12,6 +12,7 @@ final class CollectionHttpRequest extends ApiFormRequest
     public function rules(): array
     {
         return [
+            'type' => 'string',
             'page' => 'integer|min:1',
             'sort' => 'string',
             'direction' => [

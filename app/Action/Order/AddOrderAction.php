@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Action\Order;
 
 use App\Models\Order;
+use App\Events\OrderAdd;
 use App\Repository\OrderRepository;
 
 final class AddOrderAction
@@ -30,7 +31,7 @@ final class AddOrderAction
 
         $order = $this->orderRepository->save($order);
         
-        // broadcast(new OrderAddedEvent($order))->toOthers();
+        broadcast(new OrderAdd($order));
 
         return new AddOrderResponse($order);
     }

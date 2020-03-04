@@ -14,7 +14,7 @@ final class EquipmentArrayPresenter implements CollectionAsArrayPresenter
         return [
             'id' => $equipment->getId(),
             'name' => $equipment->getName(),
-            'options' => explode(', ', $equipment->getOptions()),
+            'options' => $equipment->getOptions(),
         ];
     }
 

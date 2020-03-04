@@ -4,11 +4,14 @@ declare (strict_types=1);
 
 namespace App\Action\Order;
 
-use App\Action\GetCollectionRequest;
-use App\Repository\OrderRepository;
+use App\Models\Order;
+use App\Contracts\Getter;
 use App\Action\PaginatedResponse;
+use App\Repository\OrderRepository;
+use App\Action\GetCollectionRequest;
+use Illuminate\Support\Facades\Auth;
 
-final class GetRemovedOrderCollectionAction 
+final class GetRemovedOrderCollectionAction
 {
     private $repository;
 
@@ -19,8 +22,13 @@ final class GetRemovedOrderCollectionAction
 
     public function execute(GetCollectionRequest $request):PaginatedResponse
     {
+        $user = Auth::user();
+        
+        $IDs = collect($user->removing(Order::class)->get()->toArray())
+            ->pluck($user->getKeyName())->all();
         return new PaginatedResponse(
-            $this->repository->getRemovedOrders(
+            $this->repository->getOrdersIn(
+                $IDs,
                 $request->getPage() ?: OrderRepository::DEFAULT_PAGE,
                 OrderRepository::DEFAULT_PER_PAGE,
                 $request->getSort() ?: OrderRepository::DEFAULT_SORT,

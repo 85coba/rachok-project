@@ -33,4 +33,19 @@ final class UserRepository implements Paginable
 
         return $user;
     }
+
+    public function getVendorsCount()
+    {
+        return User::count();
+    }
+
+    public function getAllUsers( 
+        int $page = self::DEFAULT_PAGE,
+        int $perPage = self::DEFAULT_PER_PAGE,
+        string $sort = self::DEFAULT_SORT,
+        string $direction = self::DEFAULT_DIRECTION
+    ): LengthAwarePaginator
+    {
+        return User::orderBy($sort, $direction)->paginate($perPage, ['*'], null, $page);
+    }
 }

@@ -56,6 +56,9 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        //Checking where from request then defining the exception render
+        if (! $request->is('api/*')) { return parent::render($request, $exception); }
+
         if ($exception instanceof ValidationException) {
             return ApiResponse::error(
                 ErrorCode::VALIDATION_FAILED,

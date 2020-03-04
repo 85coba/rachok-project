@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use Carbon\Carbon;
 use App\Models\Order;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -44,65 +45,53 @@ final class OrderRepository implements Paginable
         return $order->delete();
     }
 
-    public function getFiltredOrders(
+    public function getOrdersNotIn(
+        array $IDs,
         int $page = self::DEFAULT_PAGE,
         int $perPage = self::DEFAULT_PER_PAGE,
         string $sort = self::DEFAULT_SORT,
         string $direction = self::DEFAULT_DIRECTION
     ): LengthAwarePaginator {
-        $model = Auth::user();
-        $filterIDs = [];
-        $filters = $model->settings;
-        foreach ($filters as $filter) {
-            $IDs = collect(Order::select('id')
-                ->whereNotIn($filter->name, explode(",", $filter->value))
-                ->get()->toArray())->pluck('id')->all();
-            $filterIDs = (count($filterIDs) === 0) ? $IDs : array_uintersect($filterIDs, $IDs, "strcasecmp");
-        }
-
-        $removedIds = collect($model->removing(Order::class)->get()->toArray())->pluck($model->getKeyName())->all();
         
-        return Order::whereNotIn('id',$filterIDs)->whereNotIn('id', $removedIds)
+        return Order::whereNotIn('id', $IDs)
             ->orderBy($sort, $direction)
             ->paginate($perPage, ['*'], null, $page);
     }
 
-    public function getRemovedOrders(
+    public function getOrdersIn(
+        array $IDs,
         int $page = self::DEFAULT_PAGE,
         int $perPage = self::DEFAULT_PER_PAGE,
         string $sort = self::DEFAULT_SORT,
         string $direction = self::DEFAULT_DIRECTION
-    ): LengthAwarePaginator {
-        $model = Auth::user();
-
-        $removedIds = collect($model->removing(Order::class)->get()->toArray())->pluck($model->getKeyName())->all();
-        
-        return Order::whereIn('id', $removedIds)->orderBy($sort, $direction)->paginate($perPage, ['*'], null, $page);
+    ): LengthAwarePaginator 
+    { 
+        return Order::whereIn('id', $IDs)
+            ->orderBy($sort, $direction)
+            ->paginate($perPage, ['*'], null, $page);
     }
 
-    public function getProcessedOrders(
-        int $page = self::DEFAULT_PAGE,
-        int $perPage = self::DEFAULT_PER_PAGE,
-        string $sort = self::DEFAULT_SORT,
-        string $direction = self::DEFAULT_DIRECTION
-    ): LengthAwarePaginator {
-        $model = Auth::user();
-
-        $processedIds = collect($model->processing(Order::class)->get()->toArray())->pluck($model->getKeyName())->all();
-        
-        return Order::whereIn('id', $processedIds)->orderBy($sort, $direction)->paginate($perPage, ['*'], null, $page);
+    public function getOrdersCount()
+    {
+        return Order::count();
     }
 
-    public function getUnProcessedOrders(
-        int $page = self::DEFAULT_PAGE,
-        int $perPage = self::DEFAULT_PER_PAGE,
-        string $sort = self::DEFAULT_SORT,
-        string $direction = self::DEFAULT_DIRECTION
-    ): LengthAwarePaginator {
-        $model = Auth::user();
-
-        $processedIds = collect($model->processing(Order::class)->get()->toArray())->pluck($model->getKeyName())->all();
-        
-        return Order::whereNotIn('id', $processedIds)->orderBy($sort, $direction)->paginate($perPage, ['*'], null, $page);
+    public function getTopEquipment()
+    {
+        return DB::table('orders')
+            ->select('title', DB::raw('count(*) as total'))
+            ->groupBy('title')
+            ->orderByDesc('total')
+            ->first();
     }
+
+    public function getOrdersCountByDate()
+    {
+        return Order::selectRaw('year(created_at) year, monthname(created_at) month, count(*) data')
+            ->groupBy('year', 'month')
+            ->orderByDesc('month')
+            ->get();
+            
+    }
+
 }

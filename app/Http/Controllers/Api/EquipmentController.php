@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
+
 use App\Http\Response\ApiResponse;
 use App\Http\Controllers\ApiController;
 use App\Action\Equipment\GetAllEquipmentAction;
