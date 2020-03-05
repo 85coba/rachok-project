@@ -18,7 +18,7 @@ class ChangeColumnTypeOptionsInEquipmentsTable extends Migration
         });
 
         Schema::table('equipments', function (Blueprint $table) {
-            $table->json('options');
+            $table->json('options')->nullable();
         });
     }
 
