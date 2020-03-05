@@ -17,7 +17,7 @@
                 @foreach ($equipments as $equipment)
                     <tr>
                         <td>{{ $equipment['name'] }}</td>
-                        <td>{{ implode(', ', $equipment['options']) }}</td>
+                        <td>{{ $equipment['options'] == null ? '--' : implode(' ,', $equipment['options']) }}</td>
                     </tr>
                 @endforeach
                 </tbody>
